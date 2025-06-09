@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dify AIエージェント開発 実践詳細ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #475569;
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 4rem;
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+            color: #475569;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #2563eb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-section {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .hero-gradient {
+            background: radial-gradient(circle, rgba(239, 246, 255, 0.9), transparent 70%);
+        }
+        .step-number {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 9999px;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            margin-right: 1rem;
+            border: 4px solid #dbeafe;
+        }
+        .step-card {
+             display: flex;
+             align-items: flex-start;
+             background-color: #f8fafc;
+             padding: 1.5rem;
+             border-radius: 0.75rem;
+             border: 1px solid #e2e8f0;
+        }
+        .step-card-content {
+            flex-grow: 1;
+        }
+        .step-card-content h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        .step-card-content p {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+        .use-case-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .use-case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .generated-image {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <img src="https://assets.dify.ai/images/dify_logo_dark.png" alt="Difyのロゴ" class="h-8">
+                <span class="text-xl font-bold text-slate-800">AI Agent with Dify</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#introduction" class="nav-link font-medium">はじめに</a>
+                <a href="#use-cases" class="nav-link font-medium">ユースケース</a>
+                <a href="#how-to-build" class="nav-link font-medium">実践開発ガイド</a>
+                <a href="#security" class="nav-link font-medium">セキュリティ</a>
+                <a href="#faq" class="nav-link font-medium">Q&A</a>
+                <a href="#cta" class="nav-link font-medium">始めましょう</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="text-center pt-20 pb-16 px-6 relative hero-gradient">
+            <div class="container mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">AIエージェント開発 実践詳細ガイド</h1>
+                <p class="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">あらゆるビジネスを加速する、インテリジェントなAIアシスタント構築入門</p>
+                <a href="#use-cases" class="bg-blue-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-700 transition-transform hover:scale-105 inline-block">
+                    活用事例を見る
+                </a>
+            </div>
+        </section>
+
+        <!-- Introduction -->
+        <section id="introduction" class="py-20 px-6">
+            <div class="container mx-auto max-w-4xl">
+                 <h2 class="section-title">はじめに：AI開発をもっと身近に、もっと自由に</h2>
+                <p class="section-subtitle">
+                    本ガイドでは、AI開発の経験がない方でも、様々な業界や職種のニーズに応えるAIアシスタント（エージェント）を構築できるよう、Difyの基本的な概念から具体的な開発手順までを丁寧に解説します。
+                    Difyは、複雑なプログラミングを最小限に抑え、あなたのアイデアを迅速に形にするための強力なプラットフォームです。このガイドを通じて、その第一歩を踏み出しましょう。
+                </p>
+                 <div class="content-card grid md:grid-cols-3 gap-8 text-center">
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">AIエージェントとは？</h3>
+                        <p class="text-sm">特定の目的を持ち、自律的にタスクをこなすAIアシスタントです。人間の指示を理解し、必要な情報（ナレッジ）を参照したり、便利な機能（ツール）を使いこなしたりします。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">LLMとは？</h3>
+                        <p class="text-sm">「大規模言語モデル」の略で、人間のように言葉を操るAIの「脳」の部分です。ChatGPTなどが有名です。Difyは、この「脳」に様々な能力を与える役割を担います。</p>
+                    </div>
+                     <div>
+                        <h3 class="text-lg font-bold mb-2">RAGとは？</h3>
+                        <p class="text-sm">AIが独自の文書（ナレッジ）を正確に参照するための技術です。これにより、AIは一般的知識だけでなく、社内マニュアルなどの専門情報にも基づいて回答できます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases Section -->
+        <section id="use-cases" class="py-20 px-6 bg-white">
+            <div class="container mx-auto">
+                <h2 class="section-title">Difyで実現する多様なAIエージェント活用事例</h2>
+                <p class="section-subtitle">Difyは業界や職種を問わず、様々な業務の自動化と効率化を実現します。ここではその一部をご紹介します。</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="use-case-card">
+                        <div class="flex items-center mb-4">
+                            <div class="p-3 bg-blue-100 text-blue-600 rounded-lg mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg></div>
+                            <h3 class="font-bold text-lg text-slate-800">カスタマーサポート自動化</h3>
+                        </div>
+                        <p class="text-sm">24時間365日対応のFAQボットを構築。問い合わせ内容を自動で分類し、複雑な案件のみを担当者にエスカレーションすることで、サポート業務を大幅に効率化します。</p>
+                    </div>
+                    <div class="use-case-card">
+                        <div class="flex items-center mb-4">
+                            <div class="p-3 bg-green-100 text-green-600 rounded-lg mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg></div>
+                            <h3 class="font-bold text-lg text-slate-800">人事・採用アシスタント</h3>
+                        </div>
+                        <p class="text-sm">社内規定や福利厚生に関する質問に答えるHRボットを作成。履歴書をアップロードし、要件との適合性を予備審査させるなど、採用プロセスの支援も可能です。</p>
+                    </div>
+                    <div class="use-case-card">
+                        <div class="flex items-center mb-4">
+                            <div class="p-3 bg-purple-100 text-purple-600 rounded-lg mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg></div>
+                             <h3 class="font-bold text-lg text-slate-800">マーケティングコンテンツ生成</h3>
+                        </div>
+                        <p class="text-sm">ターゲット顧客のペルソナやキーワードを指示するだけで、ブログ記事、SNS投稿、広告コピーの草案を自動生成。コンテンツ制作の時間を短縮します。</p>
+                    </div>
+                     <div class="use-case-card">
+                        <div class="flex items-center mb-4">
+                            <div class="p-3 bg-yellow-100 text-yellow-600 rounded-lg mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6-4a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                             <h3 class="font-bold text-lg text-slate-800">営業リード予備審査</h3>
+                        </div>
+                        <p class="text-sm">Webサイトからの問い合わせ内容を分析し、有望な見込み客（リード）を自動でスコアリング。営業チームが優先度の高い顧客に集中できるよう支援します。</p>
+                    </div>
+                     <div class="use-case-card">
+                        <div class="flex items-center mb-4">
+                            <div class="p-3 bg-red-100 text-red-600 rounded-lg mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
+                             <h3 class="font-bold text-lg text-slate-800">開発者向けツール</h3>
+                        </div>
+                        <p class="text-sm">大量のAPIドキュメントを知識源とし、仕様に関する質問に即座に回答するボットを開発。コード生成の補助や、エラーメッセージの解説も可能です。</p>
+                    </div>
+                     <div class="use-case-card">
+                        <div class="flex items-center mb-4">
+                            <div class="p-3 bg-teal-100 text-teal-600 rounded-lg mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222 4 2.222V20" /></svg></div>
+                             <h3 class="font-bold text-lg text-slate-800">教育・研修アシスタント</h3>
+                        </div>
+                        <p class="text-sm">研修資料やマニュアルを学習させ、新入社員や学習者の質問に回答するAIチューターを作成。個別のペースに合わせた学習をサポートします。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Build -->
+        <section id="how-to-build" class="py-20 px-6">
+            <div class="container mx-auto">
+                <h2 class="section-title">実践開発ガイド：2つのアプローチ</h2>
+                <p class="section-subtitle">プロジェクトの目的やチームのスキルに応じて、最適な開発アプローチを選択できます。ここでは、初心者向けの「テンプレート利用」と、上級者向けの「ゼロからの構築」、それぞれの具体的な実装ステップを10段階で詳しく解説します。</p>
+                
+                <div class="grid lg:grid-cols-2 gap-12">
+                     <article class="content-card">
+                         <div class="mb-8">
+                            <span class="inline-block bg-sky-100 text-sky-800 text-lg font-semibold px-4 py-2 rounded-full">方法1：テンプレートで迅速開発</span>
+                            <h3 class="text-2xl font-bold mt-3">社内FAQエージェントを5分で構築</h3>
+                            <p class="mt-2 text-slate-600">コーディング不要。社内規定やマニュアルをAIに学習させ、問い合わせ対応を自動化します。</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="step-card"><div class="step-number">1</div><div class="step-card-content"><h4>Difyにログイン＆新規アプリ作成</h4><p>Dify環境にログインし、メイン画面で「アプリを作成」ボタンをクリックします。</p></div></div>
+                            <div class="step-card"><div class="step-number">2</div><div class="step-card-content"><h4>テンプレートを選択</h4><p>「テンプレートから作成」を選び、「基本的なチャットボット」を選択します。</p></div></div>
+                            <div class="step-card"><div class="step-number">3</div><div class="step-card-content"><h4>アプリの基本情報を設定</h4><p>AIアシスタントのアイコンと名前（例：「人事部 ヘルプデスク」）を設定します。</p></div></div>
+                            <div class="step-card"><div class="step-number">4</div><div class="step-card-content"><h4>AIの「脳」となるLLMを設定</h4><p>「プロンプトエンジニアリング」→「モデル」で、使用するLLM（例：GPT-4o）を選択します。</p></div></div>
+                             <div class="step-card"><div class="step-number">5</div><div class="step-card-content"><h4>AIへの指示書（プロンプト）を作成</h4><p>「プロンプト」欄に、AIの役割（例：「あなたは人事部の手続きを案内するアシスタントです」）や、回答のトーンを具体的に記述します。</p></div></div>
+                             <div class="step-card"><div class="step-number">6</div><div class="step-card-content"><h4>知識源（ナレッジベース）を準備</h4><p>左メニューの「ナレッジ」に移動し、新しいナレッジベース（例：「社内規定2024」）を作成します。</p></div></div>
+                             <div class="step-card"><div class="step-number">7</div><div class="step-card-content"><h4>社内文書をアップロード</h4><p>作成したナレッジベースに、就業規則や経費精算マニュアルのPDFなどをドラッグ＆ドロップでアップロードします。</p></div></div>
+                             <img src="https://pplx-res.cloudinary.com/image/upload/v1749457278/gpt4o_images/ogmtrjmbixg3kx60mkwh.png" alt="Difyのナレッジベースにファイルをアップロードしている画面のイラスト" class="generated-image my-4">
+                            <div class="step-card"><div class="step-number">8</div><div class="step-card-content"><h4>知識をAIに接続</h4><p>アプリの「コンテキスト」設定に戻り、先ほど作成したナレッジベースを接続します。これでAIが文書の内容を理解します。</p></div></div>
+                            <div class="step-card"><div class="step-number">9</div><div class="step-card-content"><h4>会話の開始メッセージを設定</h4><p>「機能」セクションで、チャット開始時のAIからの最初の挨拶（例：「こんにちは！人事に関するご質問は何ですか？」）を設定します。</p></div></div>
+                            <div class="step-card"><div class="step-number">10</div><div class="step-card-content"><h4>テストと公開</h4><p>右側のプレビュー画面で実際に質問し、文書通りに回答するかテストします。問題がなければ「公開」し、社内ポータルなどへ埋め込みます。</p></div></div>
+                        </div>
+                    </article>
+
+                    <article class="content-card">
+                        <div class="mb-8">
+                            <span class="inline-block bg-indigo-100 text-indigo-800 text-lg font-semibold px-4 py-2 rounded-full">方法2：ゼロからの構築</span>
+                            <h3 class="text-2xl font-bold mt-3">多言語サポートエージェント</h3>
+                            <p class="mt-2 text-slate-600">複数のツールを組み合わせ、ユーザーの言語を判別して最適な言語で回答する高度なエージェントを作成します。</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="step-card"><div class="step-number">1</div><div class="step-card-content"><h4>アプリ作成で「エージェント」を選択</h4><p>「空白から作成」→アプリタイプで「エージェント」を選択。自律判断やツール使用など、高度な機能が解放されます。</p></div></div>
+                            <div class="step-card"><div class="step-number">2</div><div class="step-card-content"><h4>会話フローをプロンプトで設計</h4><p>「プロンプト」で、エージェントの基本動作を定義。「まずユーザーの言語を特定し、その言語で応答を生成しなさい」と指示します。</p></div></div>
+                            <div class="step-card"><div class="step-number">3</div><div class="step-card-content"><h4>言語検出ツールを準備</h4><p>「ツール」セクションで「作成」をクリック。外部の言語検出APIと連携するカスタムツールを作成します。</p></div></div>
+                            <div class="step-card"><div class="step-number">4</div><div class="step-card-content"><h4>翻訳ツールを準備</h4><p>同様に、外部の翻訳APIと連携するカスタムツールを作成します。</p></div></div>
+                             <img src="https://dify.tdse.jp/wp-content/themes/dify/assets/images/indexfeature_thumbnail_2.png" alt="DifyのAIエージェントにツールを追加する画面のUIイラスト" class="generated-image my-4">
+                             <div class="step-card"><div class="step-number">5</div><div class="step-card-content"><h4>ナレッジベース（日本語）を準備</h4><p>FAQの元となる知識源は日本語の文書で一元管理します。ナレッジベースにアップロードします。</p></div></div>
+                             <div class="step-card"><div class="step-number">6</div><div class="step-card-content"><h4>ツールと知識をAIに接続</h4><p>エージェントの設定で、作成した2つのツールと、日本語のナレッジベースを接続します。</p></div></div>
+                            <div class="step-card"><div class="step-number">7</div><div class="step-card-content"><h4>ツール使用をプロンプトで指示</h4><p>「①言語検出ツールで言語を判別 ②ナレッジベースで回答を検索 ③検索結果を翻訳ツールで対象言語に翻訳して回答」という処理の流れをプロンプトで厳密に指示します。</p></div></div>
+                             <div class="step-card"><div class="step-number">8</div><div class="step-card-content"><h4>思考プロセスを見ながらデバッグ</h4><p>英語や中国語で質問し、意図通りにツールが連携して動作するか、ログ（思考プロセス）を見ながら確認します。</p></div></div>
+                             <div class="step-card"><div class="step-number">9</div><div class="step-card-content"><h4>エラーハンドリングを設定</h4><p>言語検出に失敗した場合などのために、「申し訳ありません、日本語か英語で質問してください」と返すようなエラー処理を指示に追加します。</p></div></div>
+                             <div class="step-card"><div class="step-number">10</div><div class="step-card-content"><h4>反復改善と展開</h4><p>テストと修正を繰り返し、エージェントの動作が安定したら、APIとして多言語対応のWebサイトやアプリに組み込みます。</p></div></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security and Compliance -->
+        <section id="security" class="py-20 px-6 bg-white">
+             <div class="container mx-auto">
+                <h2 class="section-title">エンタープライズレベルのセキュリティ</h2>
+                <p class="section-subtitle">Difyは、ビジネスでAIを活用する上で最も重要なデータの安全性を最優先し、厳格な要件を満たす機能を備えています。</p>
+                <div class="content-card max-w-5xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 text-slate-800">多層的なセキュリティ対策</h3>
+                             <ul class="space-y-4">
+                                <li class="flex"><div class="bg-blue-500 w-2 h-2 rounded-full mt-2.5 mr-3 flex-shrink-0"></div><span><strong>データ主権の確保:</strong> セルフホスティング（オンプレミス）により、全てのデータを自社インフラ内で管理。外部へのデータ流出リスクを根絶します。</span></li>
+                                <li class="flex"><div class="bg-blue-500 w-2 h-2 rounded-full mt-2.5 mr-3 flex-shrink-0"></div><span><strong>堅牢な暗号化:</strong> APIキーや機密情報は保存時に強力なアルゴリズムで暗号化され、安全に保護されます。</span></li>
+                                <li class="flex"><div class="bg-blue-500 w-2 h-2 rounded-full mt-2.5 mr-3 flex-shrink-0"></div><span><strong>監査と監視:</strong> 全ての操作ログが記録され、完全な監査証跡を提供。エージェントの振る舞いを常に監視し、コンプライアンスを維持します。</span></li>
+                                <li class="flex"><div class="bg-blue-500 w-2 h-2 rounded-full mt-2.5 mr-3 flex-shrink-0"></div><span><strong>国際基準への準拠:</strong> SOC 2 Type II, ISO 27001などの国際的な認証を取得し、信頼性を証明しています。</span></li>
+                             </ul>
+                        </div>
+                        <div class="text-center p-4">
+                           <img src="https://pplx-res.cloudinary.com/image/upload/v1749459687/gpt4o_images/fgfeixfjisic8caxfgzm.png" alt="エンタープライズセキュリティの概念図。中央の盾を中心に各セキュリティ要素が配置されている" class="generated-image w-full max-w-md mx-auto">
+                           <div class="flex justify-center items-center gap-6 mt-6">
+                               <img src="https://copyleaks.com/wp-content/uploads/2023/10/SOC2-Logo-1024x926.png" alt="SOC 2認証ロゴ" class="h-16">
+                               <img src="https://www.goldskysecurity.com/wp-content/uploads/2020/09/ISO-27001-Logo-900x900.png" alt="ISO 27001認証ロゴ" class="h-16">
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ -->
+        <section id="faq" class="py-20 px-6">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="section-title">よくあるご質問 (FAQ)</h2>
+                <div class="space-y-4" id="faq-container">
+                    <div class="faq-item bg-white rounded-lg border border-slate-200 overflow-hidden">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-5 font-medium text-slate-800 text-lg">
+                            <span>DifyはChatGPT以外にどのようなLLMをサポートしていますか？</span>
+                            <svg class="faq-arrow w-5 h-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="faq-answer hidden p-5 border-t border-slate-200 text-slate-600">
+                            <p>OpenAIのGPTシリーズに加え、Anthropic (Claudeシリーズ), Google (Gemini), Llama2 (オープンソース), Azure OpenAI, Hugging Face Hubなど、非常に幅広い主要LLMをサポートしています。これにより、コスト、パフォーマンス、特定のタスクへの適性など、様々な要件に応じて最適なモデルを柔軟に選択・切り替えできます。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item bg-white rounded-lg border border-slate-200 overflow-hidden">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-5 font-medium text-slate-800 text-lg">
+                            <span>より複雑な業務フローを自動化できますか？</span>
+                             <svg class="faq-arrow w-5 h-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="faq-answer hidden p-5 border-t border-slate-200 text-slate-600">
+                            <p>はい、もちろんです。Difyの**ビジュアルワークフロービルダー**を使えば、コーディングなしで複雑な業務プロセスを自動化できます。例えば、「顧客からの問い合わせ内容を判断」→「内容が緊急の場合、担当者に通知」→「それ以外の場合、ナレッジを参照して回答」といった条件分岐を含むフローを、ブロックを繋ぎ合わせるだけで構築できます。</p>
+                            <img src="https://storage.googleapis.com/zenn-user-upload/4c79cd6016ab-20240625.png" alt="Difyのビジュアルワークフロービルダーの画面イラスト" class="generated-image mt-4">
+                        </div>
+                    </div>
+                    <div class="faq-item bg-white rounded-lg border border-slate-200 overflow-hidden">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-5 font-medium text-slate-800 text-lg">
+                            <span>エージェントが間違った答えをした場合の対策は？</span>
+                             <svg class="faq-arrow w-5 h-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="faq-answer hidden p-5 border-t border-slate-200 text-slate-600">
+                            <p>これはAI開発における重要な課題です。Difyは複数の仕組みでこれに対応します。</p>
+                            <ol class="list-decimal pl-5 mt-2 space-y-2">
+                                <li><strong>プロンプトエンジニアリング:</strong> 「指示」を明確にし、役割、制約、禁止事項を厳密に定義することが第一の防御線です。</li>
+                                <li><strong>RAGによる接地:</strong> エージェントの知識源を検証済みの内部文書に限定することで、事実に基づかない発言（ハルシネーション）を大幅に抑制します。</li>
+                                <li><strong>ロギングと監視:</strong> 全ての対話ログを確認し、エージェントがなぜそのように応答したかを分析できます。ユーザーからのフィードバックを収集し、改善点を発見できます。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section id="cta" class="py-20 px-6 text-center bg-slate-50">
+            <div class="container mx-auto">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Difyを使ってみましょう</h2>
+                 <p class="text-slate-600 mb-8 max-w-2xl mx-auto">Difyの直感的なプラットフォームで、アイデアをすぐに形にできます。下のボタンから公式サイトにアクセスし、AI開発の新しい世界を体験してください。</p>
+                <a href="https://dify.ai/jp" target="_blank" rel="noopener noreferrer" class="bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out inline-block shadow-lg hover:shadow-xl transform hover:scale-105">
+                    Dify: 最先端のAgentic AI開発プラットフォームへ
+                </a>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-10 px-6">
+        <div class="container mx-auto text-center">
+            <a href="#"><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/dify-color.png" alt="Difyのロゴ（ダーク版）" class="h-10 mx-auto mb-4"></a>
+            <p>&copy; 2025 KamoKamo Company. All Rights Reserved.</p>
+            <p class="text-sm mt-2">このページはDifyの機能を紹介するために作成されたデモンストレーションです。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqContainer = document.getElementById('faq-container');
+            if (faqContainer) {
+                faqContainer.addEventListener('click', (e) => {
+                    const questionButton = e.target.closest('.faq-question');
+                    if (questionButton) {
+                        const item = questionButton.parentElement;
+                        const answer = item.querySelector('.faq-answer');
+                        const arrow = item.querySelector('.faq-arrow');
+                        answer.classList.toggle('hidden');
+                        arrow.classList.toggle('rotate-180');
+                    }
+                });
+            }
+
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const header = document.getElementById('header');
+            const observerOptions = {
+                rootMargin: `-${header.offsetHeight}px 0px 0px 0px`,
+                threshold: 0.2
+            };
+            const observer = new IntersectionObserver((entries) => {
+                let currentActive = '';
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                       currentActive = entry.target.getAttribute('id');
+                    }
+                });
+                 navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(currentActive){
+                         if (link.getAttribute('href') === `#${currentActive}`) {
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+            sections.forEach(section => observer.observe(section));
+
+            const fadeObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-section');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('section[id]').forEach(el => fadeObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
