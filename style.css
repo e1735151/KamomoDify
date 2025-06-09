@@ -1,0 +1,308 @@
+/* Noto Sans JP フォントと基本スタイル */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #f8fafc;
+    color: #334155;
+    /* カーソルを非表示にしてカスタムカーソルを表示 */
+    cursor: none;
+}
+
+/* === ロゴサイズ調整 === */
+.logo-kamo {
+    width: 100px; /* この値を変更してロゴサイズを調整 */
+    height: auto; /* 高さは自動で調整 */
+    transition: transform 0.3s ease;
+}
+.logo-kamo:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* === セクション共通スタイル === */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.3;
+}
+.section-subtitle {
+    font-size: 1.125rem;
+    color: #475569;
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 4rem;
+}
+.content-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+/* === ナビゲーション === */
+.nav-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+    color: #475569;
+    position: relative;
+    padding-bottom: 4px;
+}
+.nav-link:hover {
+    color: #2563eb;
+    transform: translateY(-2px);
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #2563eb;
+    transition: all 0.3s ease-in-out;
+}
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+    left: 0;
+}
+.nav-link.active {
+    color: #2563eb;
+    font-weight: 500;
+}
+
+/* === ヒーローセクション === */
+.hero-gradient {
+    background: radial-gradient(circle at 50% 30%, rgba(219, 234, 254, 0.9), transparent 70%);
+}
+
+/* === ステップ表示 === */
+.step-number {
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 9999px;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-right: 1rem;
+    border: 4px solid #dbeafe;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.step-card {
+     display: flex;
+     align-items: flex-start;
+     background-color: #f8fafc;
+     padding: 1.5rem;
+     border-radius: 0.75rem;
+     border: 1px solid #e2e8f0;
+}
+.step-card:hover .step-number {
+    transform: rotate(15deg) scale(1.1);
+}
+.step-card-content h4 { font-size: 1.125rem; font-weight: 700; color: #1e293b; margin-bottom: 0.25rem; }
+.step-card-content p { font-size: 0.95rem; color: #475569; line-height: 1.6; }
+
+/* === ユースケースカード === */
+.use-case-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.use-case-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.use-case-card .icon-wrapper {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    transition: transform 0.4s ease;
+}
+.use-case-card:hover .icon-wrapper {
+    transform: rotateY(180deg);
+}
+
+/* === 画像スタイル === */
+.generated-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    background-color: #f8fafc;
+}
+
+/* === セキュリティセクション === */
+.security-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    margin-top: 0.625rem;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+.cert-logo {
+    transition: transform 0.3s ease;
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+.cert-logo:hover {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* === FAQセクション (★★★ 更新部分 ★★★) === */
+.faq-item {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+.faq-item:hover {
+    border-color: #d1d5db;
+}
+.faq-item.open {
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+    border-color: #c7d2fe;
+}
+.faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 1.25rem;
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 1.125rem;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.faq-item.open .faq-question {
+    background-color: #f8fafc;
+}
+.faq-arrow {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.faq-item.open .faq-arrow {
+    transform: rotate(180deg);
+}
+.faq-answer {
+    display: grid;
+    grid-template-rows: 0fr; /* 初期状態では閉じる */
+    transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.faq-item.open .faq-answer {
+    grid-template-rows: 1fr; /* openクラスで開く */
+}
+.faq-answer-content {
+    overflow: hidden;
+    padding: 0 1.25rem;
+    color: #475569;
+    /* フェードインアニメーション用 */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease-out 0.2s, transform 0.4s ease-out 0.2s, padding 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.faq-item.open .faq-answer-content {
+    opacity: 1;
+    transform: translateY(0);
+    padding-bottom: 1.25rem;
+}
+/* 回答内の要素のスタイル */
+.faq-answer-content ol {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.faq-answer-content img {
+    margin-top: 1rem;
+}
+
+/* === CTAボタン === */
+.cta-button {
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+.cta-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+/* === アニメーション === */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-down {
+    animation: fadeInDown 0.8s ease-out forwards;
+}
+
+/* スクロール連動アニメーション */
+.scroll-reveal, .slide-in-from-left, .slide-in-from-right, .scroll-reveal-child {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.5, 0, 0, 1), transform 0.8s cubic-bezier(0.5, 0, 0, 1);
+    transition-delay: var(--delay, 0ms);
+}
+.scroll-reveal { transform: translateY(50px); }
+.slide-in-from-left { transform: translateX(-50px); }
+.slide-in-from-right { transform: translateX(50px); }
+.scroll-reveal-child { transform: translateY(30px); }
+
+.is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* === スクロールプログレスバー === */
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #3b82f6, #818cf8);
+    width: 0%;
+    z-index: 100;
+    transition: width 0.1s linear;
+}
+
+/* === カスタムカーソル === */
+.cursor-dot, .cursor-outline {
+    pointer-events: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 10000;
+}
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #3b82f6;
+}
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(59, 130, 246, 0.5);
+    transition-duration: 0.1s;
+}
+body:hover .cursor-dot, body:hover .cursor-outline {
+    opacity: 1;
+}
