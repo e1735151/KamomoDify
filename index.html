@@ -32,13 +32,13 @@
             alt="Difyのロゴ"
             class="h-8"
           />
-          <span class="text-xl font-bold text-slate-800"
+          <span class="text-xs font-bold text-slate-800 ml-4"
             >AI Agent with Dify by
           </span>
           <img
             src="https://pplx-res.cloudinary.com/image/upload/v1749472503/gpt4o_images/l7waargd2yn8n9wmaslm.png?utm_source=perplexity"
             alt="Kamoのロゴ"
-            class="logo-kamo"
+            class="logo-kamo h-12 -ml-2"
           />
         </a>
         <div class="hidden md:flex items-center space-x-6">
@@ -94,6 +94,7 @@
           <p
             id="hero-subtitle"
             class="text-xl text-slate-600 mb-8 max-w-3xl mx-auto h-14"
+            data-text="あらゆるビジネスを加速する、インテリジェントなAIアシスタント構築入門"
           ></p>
           <a
             href="#use-cases"
@@ -145,7 +146,7 @@
             Difyは業界や職種を問わず、様々な業務の自動化と効率化を実現します。ここではその一部をご紹介します。
           </p>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="use-case-card">
+            <div class="use-case-card scroll-reveal-child">
               <div class="flex items-center mb-4">
                 <div class="icon-wrapper bg-blue-100 text-blue-600">
                   <svg
@@ -171,7 +172,10 @@
                 24時間365日対応のFAQボットを構築。問い合わせ内容を自動で分類し、複雑な案件のみを担当者にエスカレーションすることで、サポート業務を大幅に効率化します。
               </p>
             </div>
-            <div class="use-case-card">
+            <div
+              class="use-case-card scroll-reveal-child"
+              style="--delay: 100ms"
+            >
               <div class="flex items-center mb-4">
                 <div class="icon-wrapper bg-green-100 text-green-600">
                   <svg
@@ -197,7 +201,10 @@
                 社内規定や福利厚生に関する質問に答えるHRボットを作成。履歴書をアップロードし、要件との適合性を予備審査させるなど、採用プロセスの支援も可能です。
               </p>
             </div>
-            <div class="use-case-card">
+            <div
+              class="use-case-card scroll-reveal-child"
+              style="--delay: 200ms"
+            >
               <div class="flex items-center mb-4">
                 <div class="icon-wrapper bg-purple-100 text-purple-600">
                   <svg
@@ -223,7 +230,10 @@
                 ターゲット顧客のペルソナやキーワードを指示するだけで、ブログ記事、SNS投稿、広告コピーの草案を自動生成。コンテンツ制作の時間を短縮します。
               </p>
             </div>
-            <div class="use-case-card">
+            <div
+              class="use-case-card scroll-reveal-child"
+              style="--delay: 300ms"
+            >
               <div class="flex items-center mb-4">
                 <div class="icon-wrapper bg-yellow-100 text-yellow-600">
                   <svg
@@ -249,7 +259,10 @@
                 Webサイトからの問い合わせ内容を分析し、有望な見込み客（リード）を自動でスコアリング。営業チームが優先度の高い顧客に集中できるよう支援します。
               </p>
             </div>
-            <div class="use-case-card">
+            <div
+              class="use-case-card scroll-reveal-child"
+              style="--delay: 400ms"
+            >
               <div class="flex items-center mb-4">
                 <div class="icon-wrapper bg-red-100 text-red-600">
                   <svg
@@ -275,7 +288,10 @@
                 大量のAPIドキュメントを知識源とし、仕様に関する質問に即座に回答するボットを開発。コード生成の補助や、エラーメッセージの解説も可能です。
               </p>
             </div>
-            <div class="use-case-card">
+            <div
+              class="use-case-card scroll-reveal-child"
+              style="--delay: 500ms"
+            >
               <div class="flex items-center mb-4">
                 <div class="icon-wrapper bg-teal-100 text-teal-600">
                   <svg
@@ -672,7 +688,107 @@
       <section id="faq" class="py-20 px-6 scroll-reveal">
         <div class="container mx-auto max-w-4xl">
           <h2 class="section-title">よくあるご質問 (FAQ)</h2>
-          <div class="space-y-4" id="faq-container"></div>
+          <div id="faq-container" class="space-y-4">
+            <div class="faq-item">
+              <button class="faq-question">
+                <span
+                  >DifyはChatGPT以外にどのようなLLMをサポートしていますか？</span
+                >
+                <svg
+                  class="faq-arrow w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  <p>
+                    OpenAIのGPTシリーズに加え、Anthropic (Claudeシリーズ),
+                    Google (Gemini), Llama2 (オープンソース), Azure OpenAI,
+                    Hugging Face
+                    Hubなど、非常に幅広い主要LLMをサポートしています。これにより、コスト、パフォーマンス、特定のタスクへの適性など、様々な要件に応じて最適なモデルを柔軟に選択・切り替えできます。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>より複雑な業務フローを自動化できますか？</span>
+                <svg
+                  class="faq-arrow w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  <p>
+                    はい、もちろんです。Difyの<strong>ビジュアルワークフロービルダー</strong>を使えば、コーディングなしで複雑な業務プロセスを自動化できます。例えば、「顧客からの問い合わせ内容を判断」→「内容が緊急の場合、担当者に通知」→「それ以外の場合、ナレッジを参照して回答」といった条件分岐を含むフローを、ブロックを繋ぎ合わせるだけで構築できます。
+                  </p>
+                  <img
+                    src="https://storage.googleapis.com/zenn-user-upload/4c79cd6016ab-20240625.png"
+                    alt="Difyのビジュアルワークフロービルダーの画面イラスト"
+                    class="generated-image"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>エージェントが間違った答えをした場合の対策は？</span>
+                <svg
+                  class="faq-arrow w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  <p>
+                    これはAI開発における重要な課題です。Difyは複数の仕組みでこれに対応します。
+                  </p>
+                  <ol>
+                    <li>
+                      <strong>プロンプトエンジニアリング:</strong>
+                      「指示」を明確にし、役割、制約、禁止事項を厳密に定義することが第一の防御線です。
+                    </li>
+                    <li>
+                      <strong>RAGによる接地:</strong>
+                      エージェントの知識源を検証済みの内部文書に限定することで、事実に基づかない発言（ハルシネーション）を大幅に抑制します。
+                    </li>
+                    <li>
+                      <strong>ロギングと監視:</strong>
+                      全ての対話ログを確認し、エージェントがなぜそのように応答したかを分析できます。ユーザーからのフィードバックを収集し、改善点を発見できます。
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -699,13 +815,13 @@
       </section>
     </main>
 
-    <footer class="bg-slate-800 text-slate-400 py-10 px-6">
+    <footer class="bg-slate-800 text-slate-400 pb-10 px-6">
       <div class="container mx-auto text-center">
         <a href="#"
           ><img
             src="https://pplx-res.cloudinary.com/image/upload/v1749472450/gpt4o_images/awcrbbpdbjfck2ukkg0i.png?utm_source=perplexity"
             alt="Kamoのロゴ"
-            class="logo-kamo mx-auto mb-4"
+            class="logo-kamo h-52 mx-auto -mb-4"
         /></a>
         <p>&copy; 2025 KamoKamo Company. All Rights Reserved.</p>
       </div>
