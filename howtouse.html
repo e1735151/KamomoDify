@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dify AIエージェント開発 実践詳細ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header
+      id="header"
+      class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200"
+    >
+      <nav
+        class="container mx-auto px-6 py-3 flex justify-between items-center"
+      >
+        <a href="index.html" class="flex items-center gap-2">
+          <img
+            src="https://assets.dify.ai/images/dify_logo_dark.png"
+            alt="Difyのロゴ"
+            class="h-8"
+          />
+          <span class="text-xs font-bold text-slate-800 ml-4"
+            >AI Agent with Dify by
+          </span>
+          <img
+            src="https://pplx-res.cloudinary.com/image/upload/v1749472503/gpt4o_images/l7waargd2yn8n9wmaslm.png?utm_source=perplexity"
+            alt="Kamoのロゴ"
+            class="logo-kamo h-12 -ml-2"
+          />
+        </a>
+        
+    </header>
+
+    <main>
+      
+      <section id="how-to-build" class="py-20 px-6 bg-white scroll-reveal">
+        <div class="container mx-auto">
+          <h2 class="section-title">Dify実践開発ガイド</h2>
+          <p class="section-subtitle">
+            ここでは、Difyを使ってAIエージェントを開発する具体的な手順を10段階で解説します。各ステップの画像を参考にして、開発を進めましょう。
+          </p>
+
+          <div class="max-w-4xl mx-auto">
+            <article class="content-card">
+              <div class="space-y-6">
+
+                <div class="step-card scroll-reveal-child">
+                  <div class="step-number">1</div>
+                  <div class="step-card-content">
+                    <h4>アプリの作成開始</h4>
+                    <p>Difyにログイン後、メイン画面から新しいアプリケーションの作成を開始します。</p>
+                    <img src="IMG_5135.jpg" alt="アプリの作成開始" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 100ms">
+                  <div class="step-number">2</div>
+                  <div class="step-card-content">
+                    <h4>テンプレートの利用方法</h4>
+                    <p>目的に合ったテンプレートを選択することで、開発を効率的にスタートできます。</p>
+                    <img src="IMG_5136.jpg" alt="テンプレートの利用方法" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 200ms">
+                  <div class="step-number">3</div>
+                  <div class="step-card-content">
+                    <h4>アプリ名、説明の設定</h4>
+                    <p>作成するAIエージェントの名前と、その役割や機能に関する説明を設定します。</p>
+                    <img src="IMG_5137.jpg" alt="アプリ名、説明の設定" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 300ms">
+                  <div class="step-number">4</div>
+                  <div class="step-card-content">
+                    <h4>プラグインの設定</h4>
+                    <p>エージェントに特定の機能（ツール）を追加するためのプラグインを設定します。</p>
+                    <img src="IMG_5138.jpg" alt="プラグインの設定" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 400ms">
+                  <div class="step-number">5</div>
+                  <div class="step-card-content">
+                    <h4>アプリの動作確認</h4>
+                    <p>設定が完了したら、プレビュー画面で基本的な動作を確認します。</p>
+                    <img src="IMG_5139.jpg" alt="アプリの動作確認" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 500ms">
+                  <div class="step-number">6</div>
+                  <div class="step-card-content">
+                    <h4>プレビューで確認すること</h4>
+                    <p>意図した通りの応答をするか、複数の質問パターンでテストします。</p>
+                    <img src="IMG_5140.jpg" alt="プレビューで確認すること" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 600ms">
+                  <div class="step-number">7</div>
+                  <div class="step-card-content">
+                    <h4>エラー箇所の特定</h4>
+                    <p>予期せぬ応答があった場合、ログや思考プロセスを確認して原因を特定します。</p>
+                    <img src="IMG_5141.jpg" alt="エラー箇所の特定" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 700ms">
+                  <div class="step-number">8</div>
+                  <div class="step-card-content">
+                    <h4>エラーの修正方法</h4>
+                    <p>エラーの原因に応じて、プロンプト、ナレッジ、ツールの設定を見直します。</p>
+                    <img src="IMG_5142.jpg" alt="エラーの修正方法" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 800ms">
+                  <div class="step-number">9</div>
+                  <div class="step-card-content">
+                    <h4>エラーの具体的な修正方法</h4>
+                    <p>プロンプトに制約を追加したり、ナレッジのチャンク設定を調整するなどの対応を行います。</p>
+                    <img src="IMG_5143.jpg" alt="エラーの具体的な修正方法" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 900ms">
+                  <div class="step-number">10</div>
+                  <div class="step-card-content">
+                    <h4>最終動作確認</h4>
+                    <p>修正後に再度テストを行い、安定した動作を確認できたら公開します。</p>
+                    <img src="IMG_5145.jpg" alt="最終動作確認" class="generated-image mt-4">
+                  </div>
+                </div>
+
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section id="faq" class="py-20 px-6 scroll-reveal">
+        <div class="container mx-auto max-w-4xl">
+          <h2 class="section-title">よくあるご質問 (FAQ)</h2>
+          <div id="faq-container" class="space-y-4">
+            <div class="faq-item">
+              <button class="faq-question">
+                <span
+                  >DifyはChatGPT以外にどのようなLLMをサポートしていますか？</span
+                >
+                <svg
+                  class="faq-arrow w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  <p>
+                    OpenAIのGPTシリーズに加え、Anthropic (Claudeシリーズ),
+                    Google (Gemini), Llama2 (オープンソース), Azure OpenAI,
+                    Hugging Face
+                    Hubなど、非常に幅広い主要LLMをサポートしています。これにより、コスト、パフォーマンス、特定のタスクへの適性など、様々な要件に応じて最適なモデルを柔軟に選択・切り替えできます。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>より複雑な業務フローを自動化できますか？</span>
+                <svg
+                  class="faq-arrow w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  <p>
+                    はい、もちろんです。Difyの<strong>ビジュアルワークフロービルダー</strong>を使えば、コーディングなしで複雑な業務プロセスを自動化できます。例えば、「顧客からの問い合わせ内容を判断」→「内容が緊急の場合、担当者に通知」→「それ以外の場合、ナレッジを参照して回答」といった条件分岐を含むフローを、ブロックを繋ぎ合わせるだけで構築できます。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="cta"
+        class="py-20 px-6 text-center bg-slate-50 scroll-reveal"
+      >
+        <div class="container mx-auto">
+          <h2 class="text-3xl font-bold text-slate-800 mb-6">
+            Difyを使ってみましょう
+          </h2>
+          <p class="text-slate-600 mb-8 max-w-2xl mx-auto">
+            Difyの直感的なプラットフォームで、アイデアをすぐに形にできます。下のボタンから公式サイトにアクセスし、AI開発の新しい世界を体験してください。
+          </p>
+          <a
+            href="https://dify.ai/jp"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-button bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-lg inline-block shadow-lg"
+          >
+            Dify: 最先端のAgentic AI開発プラットフォームへ
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 pb-10 px-6">
+      <div class="container mx-auto text-center">
+        <a href="index.html"
+          ><img
+            src="https://pplx-res.cloudinary.com/image/upload/v1749472450/gpt4o_images/awcrbbpdbjfck2ukkg0i.png?utm_source=perplexity"
+            alt="Kamoのロゴ"
+            class="logo-kamo h-52 mx-auto -mb-4"
+        /></a>
+        <p>&copy; 2025 KamoKamo Company. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
