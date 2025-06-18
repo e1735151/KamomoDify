@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dify API利用ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header
+      id="header"
+      class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200"
+    >
+      <nav
+        class="container mx-auto px-6 py-3 flex justify-between items-center"
+      >
+        <a href="index.html" class="flex items-center gap-2">
+          <img
+            src="https://assets.dify.ai/images/dify_logo_dark.png"
+            alt="Difyのロゴ"
+            class="h-8"
+          />
+          <span class="text-xs font-bold text-slate-800 ml-4"
+            >AI Agent with Dify by
+          </span>
+          <img
+            src="https://pplx-res.cloudinary.com/image/upload/v1749472503/gpt4o_images/l7waargd2yn8n9wmaslm.png?utm_source=perplexity"
+            alt="Kamoのロゴ"
+            class="logo-kamo h-12 -ml-2"
+          />
+        </a>
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="nav-link font-medium">ホーム</a>
+          <a href="howtouse (2).html" class="nav-link font-medium">実践開発ガイド</a>
+          <a href="api-guide.html" class="nav-link font-medium active">API利用ガイド</a>
+        </div>
+        <button
+          id="mobile-menu-button"
+          class="md:hidden p-2 rounded-md hover:bg-gray-100"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </nav>
+      <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
+        <a href="index.html" class="block nav-link font-medium">ホーム</a>
+        <a href="howtouse (2).html" class="block nav-link font-medium">実践開発ガイド</a>
+        <a href="api-guide.html" class="block nav-link font-medium">API利用ガイド</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="text-center pt-20 pb-16 px-6 relative hero-gradient">
+        <div class="container mx-auto">
+          <h1
+            class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight animate-fade-in-down"
+          >
+            Dify API利用ガイド
+          </h1>
+          <p
+            id="hero-subtitle"
+            class="text-xl text-slate-600 mb-8 max-w-3xl mx-auto h-14"
+            data-text="Dify APIを使いこなして、AIエージェントの可能性を最大限に引き出しましょう。"
+          ></p>
+          <a
+            href="#api-key-creation"
+            class="cta-button bg-blue-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-700 transition-transform hover:scale-105 inline-block"
+          >
+            利用方法を見る
+          </a>
+        </div>
+      </section>
+
+      <section id="api-key-creation" class="py-20 px-6 bg-white scroll-reveal">
+        <div class="container mx-auto max-w-4xl">
+          <h2 class="section-title">APIキーの作り方</h2>
+          <p class="section-subtitle">
+            DifyでAIエージェントを外部から利用するためにはAPIキーが必要です。ここでは、APIキーの作成手順を解説します。
+          </p>
+
+          <div class="max-w-4xl mx-auto">
+            <article class="content-card">
+              <div class="space-y-6">
+                <div class="step-card scroll-reveal-child">
+                  <div class="step-number">1</div>
+                  <div class="step-card-content">
+                    <h4>ホーム画面にログイン</h4>
+                    <p>Difyのプラットフォームにログインします。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=ログイン画面のイメージ" alt="ログイン画面のイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 100ms">
+                  <div class="step-number">2</div>
+                  <div class="step-card-content">
+                    <h4>Settingsを開く</h4>
+                    <p>画面左側のナビゲーションメニューから「Settings」をクリックします。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=Settings画面のイメージ" alt="Settings画面のイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 200ms">
+                  <div class="step-number">3</div>
+                  <div class="step-card-content">
+                    <h4>API keysを開く</h4>
+                    <p>Settingsメニュー内にある「API keys」を選択します。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=API Keys画面のイメージ" alt="API Keys画面のイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 300ms">
+                  <div class="step-number">4</div>
+                  <div class="step-card-content">
+                    <h4>「create new secret key」を押下</h4>
+                    <p>新しいAPIキーを作成するために「create new secret key」ボタンをクリックします。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=Create New Secret Keyボタンのイメージ" alt="Create New Secret Keyボタンのイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 400ms">
+                  <div class="step-number">5</div>
+                  <div class="step-card-content">
+                    <h4>名前とプロジェクトを選択し、「create secret key」を押下</h4>
+                    <p>APIキーの名前を入力し、関連付けたいプロジェクトを選択した後、「create secret key」ボタンを押して作成を完了します。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=APIキー作成フォームのイメージ" alt="APIキー作成フォームのイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="api-playground" class="py-20 px-6 scroll-reveal">
+        <div class="container mx-auto max-w-4xl">
+          <h2 class="section-title">APIキーで遊んでみよう</h2>
+          <p class="section-subtitle">
+            作成したAPIキーを使って、DifyのPlaygroundでAIエージェントの動作を試してみましょう。
+          </p>
+          <div class="max-w-4xl mx-auto">
+            <article class="content-card">
+              <div class="space-y-6">
+                <div class="step-card scroll-reveal-child">
+                  <div class="step-number">1</div>
+                  <div class="step-card-content">
+                    <h4>ホームページを開き、「Playground」を押下</h4>
+                    <p>Difyのホームページにアクセスし、上部のナビゲーションバーにある「Playground」をクリックします。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=Playgroundボタンのイメージ" alt="Playgroundボタンのイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 100ms">
+                  <div class="step-number">2</div>
+                  <div class="step-card-content">
+                    <h4>「Assistants」を選択</h4>
+                    <p>Playground画面で「Assistants」タブを選択し、アシスタント機能を利用するための準備をします。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=Assistantsタブのイメージ" alt="Assistantsタブのイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 200ms">
+                  <div class="step-number">3</div>
+                  <div class="step-card-content">
+                    <h4>アシスタントの名前とシステムインストラクションを記載</h4>
+                    <p>作成するアシスタントの名前と、そのアシスタントにどのような役割や指示を与えるかのシステムインストラクションを入力します。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=アシスタント設定画面のイメージ" alt="アシスタント設定画面のイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+
+                <div class="step-card scroll-reveal-child" style="--delay: 300ms">
+                  <div class="step-number">4</div>
+                  <div class="step-card-content">
+                    <h4>APIモデルを決定</h4>
+                    <p>アシスタントが利用するAPIモデル（例: GPT-4oなど）を選択します。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=APIモデル選択のイメージ" alt="APIモデル選択のイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+                
+                <div class="step-card scroll-reveal-child" style="--delay: 400ms">
+                  <div class="step-number">5</div>
+                  <div class="step-card-content">
+                    <h4>動かしてみる</h4>
+                    <p>設定が完了したら、Playgroundで実際にアシスタントに質問を投げかけ、その動作を確認します。</p>
+                    <img src="https://placehold.co/800x450/E0E0E0/333333?text=Playground動作確認のイメージ" alt="Playground動作確認のイメージ" class="generated-image mt-4">
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="cta"
+        class="py-20 px-6 text-center bg-slate-50 scroll-reveal"
+      >
+        <div class="container mx-auto">
+          <h2 class="text-3xl font-bold text-slate-800 mb-6">
+            Difyを使ってみましょう
+          </h2>
+          <p class="text-slate-600 mb-8 max-w-2xl mx-auto">
+            Difyの直感的なプラットフォームで、アイデアをすぐに形にできます。下のボタンから公式サイトにアクセスし、AI開発の新しい世界を体験してください。
+          </p>
+          <a
+            href="https://dify.ai/jp"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-button bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-lg inline-block shadow-lg"
+          >
+            Dify: 最先端のAgentic AI開発プラットフォームへ
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 pb-10 px-6">
+      <div class="container mx-auto text-center">
+        <a href="index.html"
+          ><img
+            src="https://pplx-res.cloudinary.com/image/upload/v1749472450/gpt4o_images/awcrbbpdbjfck2ukkg0i.png?utm_source=perplexity"
+            alt="Kamoのロゴ"
+            class="logo-kamo h-52 mx-auto -mb-4"
+        /></a>
+        <p>&copy; 2025 KamoKamo Company. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
