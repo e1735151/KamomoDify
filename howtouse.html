@@ -41,7 +41,36 @@
             class="logo-kamo h-12 -ml-2"
           />
         </a>
-        
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="nav-link font-medium">ホーム</a>
+          <a href="howtouse (2).html" class="nav-link font-medium active">実践開発ガイド</a>
+          <a href="api-guide.html" class="nav-link font-medium">API利用ガイド</a>
+        </div>
+        <button
+          id="mobile-menu-button"
+          class="md:hidden p-2 rounded-md hover:bg-gray-100"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </nav>
+      <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
+        <a href="index.html" class="block nav-link font-medium">ホーム</a>
+        <a href="howtouse (2).html" class="block nav-link font-medium">実践開発ガイド</a>
+        <a href="api-guide.html" class="block nav-link font-medium">API利用ガイド</a>
+      </div>
     </header>
 
     <main>
@@ -139,7 +168,6 @@
                 </div>
 
                 <div class="step-card scroll-reveal-child" style="--delay: 900ms">
-                  <div class="step-number">10</div>
                   <div class="step-card-content">
                     <h4>最終動作確認</h4>
                     <p>修正後に再度テストを行い、安定した動作を確認できたら公開します。</p>
