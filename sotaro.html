@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非伝統的候補者のためのエントリーレベルITキャリアパス戦略分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+        .tag-educator { background-color: #dbeafe; color: #1d4ed8; }
+        .tag-growth { background-color: #ecfccb; color: #4d7c0f; }
+        .tag-internal { background-color: #fee2e2; color: #b91c1c; }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #6366f1;
+            margin-top: 0.75rem;
+        }
+        .list-check li {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .list-check li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+        }
+        /* Timeline Styles */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 2rem;
+            border-left: 2px solid #e2e8f0;
+        }
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0;
+            height: 1rem;
+            width: 1rem;
+            background-color: white;
+            border: 2px solid #6366f1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="hero-gradient text-white shadow-lg">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">非伝統的候補者のための<br>エントリーレベルITキャリアパス戦略分析</h1>
+            <p class="mt-4 text-lg md:text-xl text-indigo-200">26歳・職歴なしからのキャリア設計ガイド</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Part 1: Executive Summary -->
+        <section id="summary" class="mb-16">
+            <h2 class="text-3xl mb-8 section-title">第1部：エグゼクティブサマリーと企業比較概要</h2>
+            <div class="space-y-8 text-slate-700 leading-relaxed">
+                <div>
+                    <h3 class="text-2xl mb-4">1.1. はじめに：本レポートの目的</h3>
+                    <p>本レポートは、特定の経歴を持つ「キャリアスターター」（26歳、職歴なし）が日本のIT市場へ参入する際の戦略的ガイドです。企業を「エデュケーター」「インハウスグロース」「インターナルIT」の3類型に分類し、キャリアスターターが自身の価値観と目標に合致する企業を選択するための客観的な判断材料を提供します。</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl mb-4">1.2. 主要な分析結果と戦略的意義</h3>
+                    <p>3つのキャリアパスは、初期の安定性、収入ポテンシャル、ワークライフバランス、働きがいの性質において根本的に異なるトレードオフを提示します。「エデュケーター」は最もリスクが低い参入経路、「インハウスグロース」は高い満足度を得られる可能性、「インターナルIT」は安定性とWLBを最優先する候補者に最適です。この理解が、長期的満足度の高いキャリア構築の鍵となります。</p>
+                </div>
+                <div class="card p-6 md:p-8 mt-8">
+                    <h3 class="text-2xl font-bold mb-6 text-center">1.3. 主要比較分析表：対象企業の概観</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-500">
+                            <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3">会社名</th>
+                                    <th scope="col" class="px-4 py-3">企業類型</th>
+                                    <th scope="col" class="px-4 py-3">「26歳職歴なし」への寛容度</th>
+                                    <th scope="col" class="px-4 py-3">研修制度</th>
+                                    <th scope="col" class="px-4 py-3">想定初任給</th>
+                                    <th scope="col" class="px-4 py-3">平均残業時間</th>
+                                    <th scope="col" class="px-4 py-3">OpenWork評価</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b"><td class="px-4 py-4 font-medium text-slate-900">ラクスパートナーズ</td><td class="px-4 py-4"><span class="tag tag-educator">エデュケーター</span></td><td class="px-4 py-4">非常に高い</td><td class="px-4 py-4">3ヶ月, Java/Spring Boot中心</td><td class="px-4 py-4">24万円～</td><td class="px-4 py-4">約6.2時間</td><td class="px-4 py-4">3.7</td></tr>
+                                <tr class="bg-slate-50 border-b"><td class="px-4 py-4 font-medium text-slate-900">アイエスエフネット</td><td class="px-4 py-4"><span class="tag tag-educator">エデュケーター</span></td><td class="px-4 py-4">非常に高い</td><td class="px-4 py-4">インフラ技術(LPIC等)中心</td><td class="px-4 py-4">約22.9万円～</td><td class="px-4 py-4">約19時間</td><td class="px-4 py-4">3.0</td></tr>
+                                <tr class="bg-white border-b"><td class="px-4 py-4 font-medium text-slate-900">GMOインターネットグループ</td><td class="px-4 py-4"><span class="tag tag-growth">インハウスグロース</span></td><td class="px-4 py-4">高い</td><td class="px-4 py-4">3ヶ月ブートキャンプ+3年フォロー</td><td class="px-4 py-4">24万円～</td><td class="px-4 py-4">約13時間</td><td class="px-4 py-4">3.5</td></tr>
+                                <tr class="bg-slate-50 border-b"><td class="px-4 py-4 font-medium text-slate-900">LiNew</td><td class="px-4 py-4"><span class="tag tag-growth">インハウスグロース</span></td><td class="px-4 py-4">非常に高い</td><td class="px-4 py-4">約7ヶ月, 自社プラットフォーム活用</td><td class="px-4 py-4">23万円～</td><td class="px-4 py-4">30h固定残業含</td><td class="px-4 py-4">N/A</td></tr>
+                                <tr class="bg-white"><td class="px-4 py-4 font-medium text-slate-900">クリエイトエス・ディー</td><td class="px-4 py-4"><span class="tag tag-internal">インターナルIT</span></td><td class="px-4 py-4">中～高</td><td class="px-4 py-4">3ヶ月総合職研修, OJT中心</td><td class="px-4 py-4">21万円～</td><td class="px-4 py-4">約12時間</td><td class="px-4 py-4">N/A</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Detailed Analysis -->
+        <section id="detailed-analysis" class="mb-16">
+            <h2 class="text-3xl mb-8 section-title">第2部：企業類型別 詳細分析</h2>
+            
+            <!-- Educator Model -->
+            <div id="educator" class="mb-12">
+                <h3 class="text-2xl mb-4">2.1. 「エデュケーター」モデル：顧客プロジェクトを通じた基盤構築</h3>
+                <p class="mb-6 text-slate-600">未経験者を採用・研修し、顧客企業へ派遣するSES/派遣事業が中核。給与を得ながら体系的な教育を受けられるため、キャリアスターターにとって最もリスクの低い業界参入方法です。この期間を「有給の訓練期間」と捉え、職務経歴書を構築することが重要です。</p>
+                <div class="space-y-8">
+                    <div class="card p-8"><h4 class="text-xl font-bold mb-4">2.1.1. ケーススタディ：株式会社ラクスパートナーズ</h4><div class="grid md:grid-cols-2 gap-6 text-sm"><div class="space-y-4"><p><strong>寛容度:</strong> 採用者の9割以上が異業種未経験者で、主要ターゲット。</p><p><strong>研修:</strong> 3ヶ月間のフルタイム研修。Java/Spring Boot中心にECサイト構築などのチーム開発演習を行い、実務2年分の内容を凝縮。</p><p><strong>働きがい:</strong> 「20代成長環境」で高評価。大手・有名企業で実践経験を積める点が魅力。ただし「案件ガチャ」のリスクも。</p></div><div class="space-y-4"><p><strong>福利厚生:</strong> 手厚い家族手当（子1人/月3万円～）、書籍購入支援（四半期1万円）など自己研鑽を奨励。</p><p><strong>残業時間:</strong> 月平均6.2時間と極めて少ない。WLBを重視する上で大きな魅力。</p></div></div></div>
+                    <div class="card p-8"><h4 class="text-xl font-bold mb-4">2.1.2. ケーススタディ：株式会社アイエスエフネット</h4><div class="grid md:grid-cols-2 gap-6 text-sm"><div class="space-y-4"><p><strong>寛容度:</strong> 「雇用の創出」を理念に、過去3,000名以上の未経験者を採用した実績。門戸が非常に広い。</p><p><strong>研修:</strong> インフラ領域（ネットワーク、サーバー）に特化。LPICなどの資格取得を視野に入れたカリキュラムが特徴。</p><p><strong>働きがい:</strong> 明確なステップアップの道筋があるが、成長度合いは常駐先に大きく依存。「年収・給与の納得度」は比較的低い傾向。</p></div><div class="space-y-4"><p><strong>福利厚生:</strong> 資格取得を強力に後押し。指定資格取得で最大10万円の報奨金と受験費用を補助。</p><p><strong>残業時間:</strong> 月平均19時間程度。業界の標準的な水準。</p></div></div></div>
+                </div>
+            </div>
+
+            <!-- In-house Growth Model -->
+            <div id="inhouse-growth" class="mb-12">
+                <h3 class="text-2xl mb-4">2.2. 「インハウスグロース」モデル：自社サービスを支える人材への投資</h3>
+                <p class="mb-6 text-slate-600">自社でWebサービスや製品を開発。人材育成は、自社ビジネスを深く理解した専門家集団を組織するための戦略的投資です。手厚い福利厚生は従業員を長期的なパートナーと見なしている証左であり、強い目的意識と帰属意識を持って働けます。</p>
+                <div class="space-y-8">
+                    <div class="card p-8"><h4 class="text-xl font-bold mb-4">2.2.1. ケーススタディ：GMOインターネットグループ株式会社</h4><div class="grid md:grid-cols-2 gap-6 text-sm"><div class="space-y-4"><p><strong>寛容度:</strong> 高い。第二新卒や経験の浅い候補者向けの採用プログラムがあり、ポテンシャルを重視。</p><p><strong>研修:</strong> 3ヶ月の「GMOテクノロジーブートキャンプ」と3年間のフォローアップ研修。長期的視点での育成にコミット。</p><p><strong>働きがい:</strong> 若いうちから大きな裁量を与えられる成長環境。社会的に認知されたサービスに直接貢献できる。</p></div><div class="space-y-4"><p><strong>福利厚生:</strong> 業界最高水準。24時間無料カフェ、社内託児所、マッサージ施設など、従業員の生活を強力にサポート。</p><p><strong>残業時間:</strong> 公式では月平均13時間だが、「部署と人による」との声も。</p></div></div></div>
+                    <div class="card p-8"><h4 class="text-xl font-bold mb-4">2.2.2. ケーススタディ：株式会社LiNew</h4><div class="grid md:grid-cols-2 gap-6 text-sm"><div class="space-y-4"><p><strong>寛容度:</strong> 非常に高い。学歴不問で20～30代の若手を積極的に募集。</p><p><strong>研修:</strong> 自社開発の「educure」を活用した約7ヶ月の長期研修が最大の特徴。即戦力育成を目指す。</p><p><strong>働きがい:</strong> 成長中のベンチャーでモダンなWeb技術に触れられる。自社サービスの成果を直接感じられる。</p></div><div class="space-y-4"><p><strong>福利厚生:</strong> 渋谷2駅圏内の住宅手当（月2万円）や引越手当など、若手の生活を直接支援する実用的な制度が充実。</p><p><strong>残業時間:</strong> 30時間分の固定残業代を含む。一定の時間外労働が見込まれる報酬体系。</p></div></div></div>
+                </div>
+            </div>
+
+            <!-- Internal IT Model -->
+            <div id="internal-it" class="mb-12">
+                <h3 class="text-2xl mb-4">2.3. 「インターナルIT」モデル：基幹事業を支える社内専門家</h3>
+                <p class="mb-6 text-slate-600">小売や教育など、IT以外を本業とする企業のIT部門。事業運営を円滑にする役割を担い、IT業界の急激な変化とは一線を画した安定性を提供します。最高の雇用安定性とWLBが期待でき、同僚を直接支援することに働きがいを感じられます。</p>
+                <div class="space-y-8">
+                     <div class="card p-8"><h4 class="text-xl font-bold mb-4">2.3.1. ケーススタディ：株式会社クリエイトエス・ディー</h4><div class="grid md:grid-cols-2 gap-6 text-sm"><div class="space-y-4"><p><strong>寛容度:</strong> 中～高。総合職として店舗経験からスタートする場合と、社内SEの直接採用がある。</p><p><strong>研修:</strong> 総合職向けに3ヶ月の手厚い研修。社内SEはOJTで独自システム（COBOL等）を学ぶ。</p><p><strong>働きがい:</strong> 東証プライム上場の安定基盤。数千人の従業員が利用する社会インフラ的なシステムを支える点にやりがい。</p></div><div class="space-y-4"><p><strong>福利厚生:</strong> 借上社宅制度（月3万円）など大企業ならではの手厚さ。取得率97%の5日連続休暇制度も魅力。</p><p><strong>残業時間:</strong> 社内SEは月平均12時間と非常に少ない。極めて良好なWLBが期待できる。</p></div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 3: Thematic Analysis -->
+        <section id="thematic-analysis" class="mb-16">
+            <h2 class="text-3xl mb-8 section-title">第3部：テーマ別統合分析</h2>
+            <div class="space-y-8">
+                <div class="card p-8">
+                    <h3 class="text-2xl mb-4">3.1. 「働きがい」の性質</h3>
+                    <ul class="space-y-3 text-slate-600">
+                        <li><strong>エデュケーター:</strong> 急激なスキル習得と多様なプロジェクト経験、大手クライアントの経歴。</li>
+                        <li><strong>インハウスグロース:</strong> 自社製品へのオーナーシップとチームの連帯感、強い企業文化への帰属意識。</li>
+                        <li><strong>インターナルIT:</strong> 雇用の安定性、同僚を直接助ける手触り感、自社の業務効率化への貢献。</li>
+                    </ul>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl mb-4">3.2. 「福利厚生」の価値の解読</h3>
+                    <ul class="space-y-3 text-slate-600">
+                        <li><strong>ライフスタイル統合型 (GMO等):</strong> 無料食事や社内託児所など、生活と会社を一体化させコミュニティ意識を育む。</li>
+                        <li><strong>経済的・実務的支援型 (ラクス、LiNew等):</strong> 家族手当や住宅補助など、生活費や自己投資を直接的に支援。</li>
+                    </ul>
+                    <p class="mt-4 text-sm font-semibold">どちらが自身のライフプランに価値をもたらすか、慎重な評価が必要です。</p>
+                </div>
+                 <div class="card p-8">
+                    <h3 class="text-2xl mb-4">3.3. 「残業時間」の実態</h3>
+                    <p class="text-slate-600">SESはクライアント、自社開発は自社製品のリリースサイクルが残業の要因。インターナルITは社内リズムに連動するため最も安定的。「みなし残業」は一定の時間外労働が想定されていることを示します。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 4: Strategic Recommendations -->
+        <section id="recommendations" class="mb-16">
+            <h2 class="text-3xl mb-8 section-title">第4部：戦略的提言と行動計画</h2>
+            <div class="space-y-8">
+                <div class="card p-8">
+                    <h3 class="text-2xl mb-4">4.1. キャリアスターターへの個別パス提言</h3>
+                    <ul class="list-check space-y-3 text-slate-700">
+                        <li><strong>スキル習得と市場価値向上を優先:</strong> 「エデュケーター」モデル、特に<strong>ラクスパートナーズ</strong>を推奨。最短で強力な職務経歴書を構築可能。</li>
+                        <li><strong>最高のWLBと長期的安定性を優先:</strong> 「インターナルIT」モデル、特に<strong>クリエイトエス・ディー</strong>を推奨。腰を据えて長く働きたい候補者に最適。</li>
+                        <li><strong>最高の企業文化と福利厚生を優先:</strong> 「インハウスグロース」モデル、特に<strong>GMOインターネットグループ</strong>を推奨。職場が生活の中心的な役割を果たすことを望む個人に最高の環境。</li>
+                    </ul>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl mb-4">4.2. 魅力的な応募書類の作成法</h3>
+                    <p class="text-slate-600">「職歴なし」を「高い学習意欲」「企業のやり方を素直に吸収できる白紙の状態」といった強みとして再定義。「熟慮の末のキャリアチェンジ」であることを強調し、自己学習の経験があればアピールしましょう。</p>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl mb-4">4.3. 最初の90日間：成功へのロードマップ</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li><strong>能動的な学習:</strong> 課題をこなすだけでなく、自ら調査し積極的に質問する。</li>
+                        <li><strong>同期との関係構築:</strong> 困難を乗り越える支えであり、将来の人的ネットワークとなる。</li>
+                        <li><strong>フィードバックの受容:</strong> 指摘を真摯に受け止め、迅速に改善する姿勢を示す。</li>
+                        <li><strong>ソフトスキルの実践:</strong> 報告・連絡・相談といった社会人基礎力を一貫して示し、信頼を獲得する。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Part 5: Entry Flow & Timeline -->
+        <section id="entry-flow-timeline">
+            <h2 class="text-3xl mb-8 section-title">第5部：最適な入社フローと就活タイムライン</h2>
+            <div class="space-y-12">
+                <div>
+                    <h3 class="text-2xl mb-6 text-center">各企業類型への最適入社フロー</h3>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Educator Flow -->
+                        <div class="card p-6 text-center">
+                            <div class="mx-auto bg-blue-100 text-blue-600 rounded-full h-16 w-16 flex items-center justify-center mb-4"><i data-lucide="graduation-cap"></i></div>
+                            <h4 class="text-xl font-bold mb-2">エデュケーターモデル</h4>
+                            <p class="text-sm text-slate-500 mb-4">(ラクスパートナーズ, ISFネット)</p>
+                            <div class="text-left text-sm space-y-3">
+                                <p><strong>① 通年採用に応募:</strong> 職歴不問の求人に直接応募。特別な準備は不要で、ポテンシャルが重視される。</p>
+                                <p><strong>② 選考・面接:</strong> 学習意欲や人柄をアピール。</p>
+                                <p><strong>③ 内定後、入社:</strong> 入社後すぐに体系的な研修がスタート。</p>
+                                <p class="font-bold text-blue-700 mt-2">ポイント: 最もシンプルかつ直接的なルート。</p>
+                            </div>
+                        </div>
+                        <!-- In-house Growth Flow -->
+                        <div class="card p-6 text-center">
+                            <div class="mx-auto bg-green-100 text-green-600 rounded-full h-16 w-16 flex items-center justify-center mb-4"><i data-lucide="rocket"></i></div>
+                            <h4 class="text-xl font-bold mb-2">インハウスグロースモデル</h4>
+                            <p class="text-sm text-slate-500 mb-4">(GMO, LiNew)</p>
+                             <div class="text-left text-sm space-y-3">
+                                <p><strong>① ポテンシャル採用枠に応募:</strong> 第二新卒や未経験者歓迎の求人を探す。</p>
+                                <p><strong>② 自己学習・ポートフォリオ準備:</strong> Progate等で基礎を学び、簡単な作品を作ると評価UP。</p>
+                                <p><strong>③ 選考・面接:</strong> 企業文化への適合性と学習意欲を強くアピール。</p>
+                                <p class="font-bold text-green-700 mt-2">ポイント: 事前の自己学習が合否を分ける。</p>
+                            </div>
+                        </div>
+                        <!-- Internal IT Flow -->
+                        <div class="card p-6 text-center">
+                            <div class="mx-auto bg-red-100 text-red-600 rounded-full h-16 w-16 flex items-center justify-center mb-4"><i data-lucide="shield-check"></i></div>
+                            <h4 class="text-xl font-bold mb-2">インターナルITモデル</h4>
+                            <p class="text-sm text-slate-500 mb-4">(クリエイトSD)</p>
+                             <div class="text-left text-sm space-y-3">
+                                <p><strong>① 中途採用の社内SE職に応募:</strong> 未経験可の求人が出るタイミングを待つ。</p>
+                                <p><strong>② (または)総合職で入社:</strong> まず総合職で入社し、現場を経験後に社内公募等でIT部門への異動を目指す。</p>
+                                <p><strong>③ 選考・面接:</strong> 企業の事業内容への理解と、長期的な貢献意欲をアピール。</p>
+                                <p class="font-bold text-red-700 mt-2">ポイント: 長期的な視点が必要な場合も。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl mb-8 text-center">2025年9月開始 就職活動タイムライン</h3>
+                    <div class="card p-8">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-bold text-lg text-indigo-700">2025年 9月 - 10月：準備フェーズ</h4>
+                            <p class="text-sm text-slate-600">自己分析、キャリアパスの検討、応募書類（履歴書・職務経歴書）の作成。インハウスグロース型を目指すなら、この時期からProgateやドットインストール等での自己学習を開始。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-bold text-lg text-indigo-700">2025年 10月 - 12月：応募・選考フェーズ</h4>
+                            <p class="text-sm text-slate-600">各社へ応募開始。エデュケーター型は通年採用のため、いつでも応募可能。週に2〜3社のペースで応募し、面接経験を積む。インハウスグロース型はポートフォリオを充実させながら応募。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-bold text-lg text-indigo-700">2025年 12月 - 2026年 1月：内定獲得・意思決定</h4>
+                            <p class="text-sm text-slate-600">複数の内定が出始める時期。本レポートの分析に基づき、オファー条件（給与、福利厚生、研修内容）を比較検討し、最終的な入社企業を決定。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-bold text-lg text-indigo-700">2026年 2月 - 3月：入社準備</h4>
+                            <p class="text-sm text-slate-600">入社手続き、引越し（必要な場合）、PCの基本操作やタイピングなど、基礎的なスキルの復習を行う。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" style="background-color: #6366f1;"></div>
+                            <h4 class="font-bold text-lg text-indigo-700">2026年 4月1日：入社</h4>
+                            <p class="text-sm text-slate-600">多くの企業が新年度に合わせて受け入れを行うため、4月1日入社が一般的。ここから新しいキャリアがスタート！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-sm">
+            <p>&copy; 2024 戦略的キャリア分析レポート. All rights reserved.</p>
+            <p class="mt-2">このページは提供された情報を基に生成されました。</p>
+        </div>
+    </footer>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
