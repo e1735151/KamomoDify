@@ -1064,7 +1064,7 @@
                     const userPrompt = `以下のレポート内容を参考にして、次の質問に答えてください。\n\n## レポート内容\n${reportContent}\n\n## 質問\n${userQuery}`;
                     
                     const apiKey = ""; // Provided by the environment
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${AIzaSyDL-Da0yM3GOB7RyHQ_QRHp9tF7AJ5oTtw}`;
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
                     const payload = {
                         contents: [{ parts: [{ text: userPrompt }] }],
