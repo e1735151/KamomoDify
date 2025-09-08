@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九州地方銀行 戦略的共創パートナーシップ分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #0D1117;
+            color: #E6EDF3;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 35vh;
+                max-height: 300px;
+            }
+        }
+        .accent-text {
+            color: #D4AF37;
+        }
+        .card {
+            background-color: #161B22;
+            border: 1px solid #30363D;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-button.active {
+            color: #D4AF37;
+            border-bottom-color: #D4AF37;
+        }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #30363D;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container.left { left: 0; }
+        .timeline-container.right { left: 50%; }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: #D4AF37;
+            border: 4px solid #161B22;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-container.right::after { left: -10px; }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: #161B22;
+            position: relative;
+            border-radius: 6px;
+        }
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-container.right { left: 0%; }
+            .timeline-container.left::after, .timeline-container.right::after { left: 21px; }
+        }
+        .radar-chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            height: 250px;
+        }
+        .prefecture-chart-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+        }
+        /* AI Search Float Button Styles */
+        #ai-search-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #D4AF37;
+            color: #0D1117;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s ease-in-out;
+        }
+        #ai-search-button:hover {
+            transform: scale(1.1);
+        }
+        /* AI Search Panel Styles */
+        #ai-search-panel {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            width: 90%;
+            max-width: 400px;
+            height: 60vh;
+            max-height: 500px;
+            background-color: #161B22;
+            border: 1px solid #30363D;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        #ai-search-panel.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .ai-search-header {
+            padding: 1rem;
+            border-bottom: 1px solid #30363D;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .ai-search-header h3 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #E6EDF3;
+        }
+        #close-ai-panel {
+            background: none;
+            border: none;
+            color: #8B949E;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        #ai-search-results {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #C9D1D9;
+        }
+        #ai-search-results .user-msg {
+            background-color: #21262d;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+         #ai-search-results .ai-msg {
+            background-color: #0d1117;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            white-space: pre-wrap; /* For line breaks */
+        }
+        .ai-search-footer {
+            padding: 1rem;
+            border-top: 1px solid #30363D;
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        #ai-search-input {
+            flex-grow: 1;
+            background-color: #0D1117;
+            border: 1px solid #30363D;
+            color: #E6EDF3;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+        }
+        #ai-submit-button {
+            background-color: #D4AF37;
+            color: #0D1117;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-center p-8 md:p-16">
+        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tighter">九州地方中小企業の人材課題解決に向けた</h1>
+        <h2 class="text-4xl md:text-6xl font-black accent-text tracking-tighter mt-2">戦略的共創パートナーシップ分析</h2>
+        <p class="mt-6 max-w-3xl mx-auto text-gray-400">当社のテクノロジーと地銀の信頼を融合させ、九州の未来を担う人材エコシステムを構築するための網羅的・多角的分析レポート。</p>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+
+        <section id="macro-analysis" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4">マクロ環境分析：日本が直面する構造的課題</h3>
+            <p class="text-center max-w-3xl mx-auto text-gray-400 mb-12">本プロジェクトの戦略的意義は、日本、特に地方圏が直面する不可逆的な人口動態の変化、すなわち「労働力の縮小」という根源的な課題にあります。</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6 rounded-lg shadow-2xl">
+                    <h4 class="text-xl font-bold text-center mb-4 text-red-400">縮小する日本の労働力</h4>
+                    <p class="text-sm text-center text-gray-400 mb-4">生産年齢人口（15～64歳）は既に減少の一途を辿っており、2050年には現在の約2/3まで落ち込むと予測されています。これは経済全体の供給力を根本から揺るがす構造的危機です。</p>
+                    <div class="chart-container">
+                        <canvas id="populationProjectionChart"></canvas>
+                    </div>
+                </div>
+                <div class="card p-6 rounded-lg shadow-2xl flex flex-col justify-center items-center">
+                    <h4 class="text-xl font-bold text-center mb-4 text-cyan-400">経営者と従業員、双方の減少</h4>
+                    <p class="text-sm text-center text-gray-400 mt-4 mb-6">問題は従業員不足だけに留まりません。中小企業の経営者自身も高齢化し、後継者が見つからない「経営者のなり手不足」が深刻化しています。これは事業の存続そのものを脅かし、地域の雇用と技術の喪失に直結します。</p>
+                     <div class="text-center bg-gray-900 p-4 rounded-lg">
+                        <p class="text-5xl font-black text-white">66.5%</p>
+                        <p class="text-lg font-bold accent-text">九州の後継者不在率</p>
+                        <p class="text-xs text-gray-400">(全国平均: 57.2%)</p>
+                    </div>
+                    <p class="text-sm text-center text-gray-400 mt-6">この「労働者」と「経営者」双方の減少という二重の課題こそ、我々のサービスが解決すべき核心です。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="kyushu-overview" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4">九州地銀ランドスケープ</h3>
+            <p class="text-center max-w-3xl mx-auto text-gray-400 mb-12">九州・沖縄の金融市場は、それぞれ独自の戦略を持つ多様なプレイヤーによって構成されています。その全体像と各県の特色を把握します。</p>
+
+            <div class="card p-6 rounded-lg shadow-2xl mb-12">
+                <h4 class="text-xl font-bold text-center mb-4">九州・沖縄 全銀行グループ 財務規模比較</h4>
+                <p class="text-sm text-center text-gray-400 mb-4">九州の金融市場は4大グループが突出していますが、各地域には個性豊かな独立系銀行が深く根付いています。規模の差が大きいため、グラフは対数目盛で表示しています。</p>
+                <div class="chart-container h-[90vh] max-h-[800px]">
+                    <canvas id="allBanksFinancialScaleChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section id="prefecture-deep-dive" class="mb-24">
+             <h3 class="text-3xl font-bold text-center my-12">九州各県の経済・人口動態 詳細分析</h3>
+             <p class="text-center max-w-3xl mx-auto text-gray-400 mb-8">各県の強み・弱みと、人口・労働力が抱える課題、そしてその対策を深掘りします。都市部と過疎地域で異なる課題構造を理解することが、効果的なサービス展開の鍵となります。</p>
+             <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8" id="prefecture-tab-buttons"></div>
+             <div id="prefecture-tab-content" class="card p-4 md:p-8 rounded-lg"></div>
+        </section>
+
+        <section id="regional-banks" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4">各県別・全行詳細分析</h3>
+            <p class="text-center max-w-3xl mx-auto text-gray-400 mb-8">九州・沖縄全19行の戦略、強み、そしてパートナーシップの可能性を詳細に分析します。関心のある県を選択してください。</p>
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8" id="bank-tab-buttons"></div>
+            <div id="bank-tab-content"></div>
+        </section>
+
+        <section id="solution" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4">提案サービス: Kyushu Future-Ready Talent Hub</h3>
+            <p class="text-center max-w-3xl mx-auto text-gray-400 mb-12">当社のテクノロジーと地銀が共創するサービスは、4つのコア機能を持つ、地域完結型の人材エコシステム・プラットフォームです。</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card p-6 rounded-lg shadow-2xl text-center transform hover:scale-105 hover:border-yellow-500 transition-all duration-300">
+                    <p class="text-5xl mb-3">🧠</p>
+                    <h4 class="text-lg font-bold">AI診断エンジン</h4>
+                    <p class="text-sm text-gray-400 mt-2">銀行の取引データをAIで分析し、企業の潜在的な人材リスクを可視化。データドリブンな組織コンサルを実現します。</p>
+                </div>
+                <div class="card p-6 rounded-lg shadow-2xl text-center transform hover:scale-105 hover:border-yellow-500 transition-all duration-300">
+                    <p class="text-5xl mb-3">🌐</p>
+                    <h4 class="text-lg font-bold">ダイナミック・タレントMP</h4>
+                    <p class="text-sm text-gray-400 mt-2">多様な人材と企業を動的にマッチング。柔軟な人材戦略を可能にします。</p>
+                </div>
+                <div class="card p-6 rounded-lg shadow-2xl text-center transform hover:scale-105 hover:border-yellow-500 transition-all duration-300">
+                    <p class="text-5xl mb-3">🤝</p>
+                    <h4 class="text-lg font-bold">事業承継・M&Aゲートウェイ</h4>
+                    <p class="text-sm text-gray-400 mt-2">後継者を探す企業と経営者を目指す人材を繋ぎ、多様な選択肢を提供します。</p>
+                </div>
+                <div class="card p-6 rounded-lg shadow-2xl text-center transform hover:scale-105 hover:border-yellow-500 transition-all duration-300">
+                    <p class="text-5xl mb-3">🎓</p>
+                    <h4 class="text-lg font-bold">アップスキリング・アカデミー</h4>
+                    <p class="text-sm text-gray-400 mt-2">地域の産業特性に合わせたオンライン研修で、人材競争力を底上げします。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-4">最終提言: 目的別最強ポートフォリオ</h3>
+            <p class="text-center max-w-3xl mx-auto text-gray-400 mb-12">単一の銀行ではなく、サービスの開発・展開フェーズに応じて複数の銀行と連携する「ポートフォリオ型パートナーシップ」が、成功への最短経路です。</p>
+            
+            <div class="space-y-12">
+                <div>
+                    <h4 class="text-2xl font-bold mb-6 text-center accent-text border-b-2 border-yellow-500 pb-2">🚀 Alphaパートナー候補 (共同開発)</h4>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="card p-6 rounded-lg shadow-2xl border-2 border-yellow-500">
+                            <h5 class="text-xl font-bold mb-2">西日本シティ銀行 (最有力)</h5>
+                            <p class="text-sm text-gray-400 mb-4">MVPを迅速かつ低リスクで開発するための理想的なパートナー。</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 卓越した組織的俊敏性と実行力。九州で最も先進的な人材紹介エコシステム(専門子会社+多層的提携網)。豊富なAPI連携実績と既存の協業経験。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 「ダイナミック・タレントMP」モジュールを同行の既存パートナー網とAPI連携させ迅速に立ち上げ。同行の課題解決型営業ノウハウを「AI診断エンジン」の提案ロジックに組み込む。</li>
+                            </ul>
+                        </div>
+                        <div class="card p-6 rounded-lg shadow-2xl">
+                             <h5 class="text-xl font-bold mb-2">宮崎太陽銀行</h5>
+                            <p class="text-sm text-gray-400 mb-4">人材領域に特化したサービスの共同開発・実証パートナー。</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 自行で有料職業紹介事業の許認可を取得し、外国人材から後継者候補までカバーする多層的なパートナー網を構築。人材課題解決への強い意志と行動力。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 同行の現場ノウハウを「AI診断エンジン」の精度向上や提案内容の充実に活かす。開発したサービスを、同行が持つ具体的な人材課題を抱える顧客リストに対してテスト導入し、実用性を検証する。</li>
+                            </ul>
+                        </div>
+                        <div class="card p-6 rounded-lg shadow-2xl">
+                             <h5 class="text-xl font-bold mb-2">筑邦銀行</h5>
+                            <p class="text-sm text-gray-400 mb-4">特定産業(農業)の事業承継モデルを共同開発するパートナー。</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 農業分野への深い知見と、「C-BES」のような株式を永久保有するユニークな事業承継の受け皿を持つ。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 「事業承継ゲートウェイ」にC-BESモデルを統合し、他にない価値を提供。農業DX人材に特化した「アグリ・タレント」モジュールを共同開発・実証する。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-2xl font-bold mb-6 text-center accent-text border-b-2 border-cyan-500 pb-2">👑 Scaleパートナー候補 (広域展開)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="card p-6 rounded-lg shadow-2xl">
+                             <h5 class="text-xl font-bold mb-2">ふくおかフィナンシャルグループ</h5>
+                            <p class="text-sm text-gray-400 mb-4">北部九州全域へのサービス展開に不可欠なパートナー。</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 九州最大の顧客基盤とブランド力。「みんなの銀行」で培った先進的DXの知見と、グループ共通のデジタルプラットフォーム。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> Alphaパートナーと検証したサービスモデルを、FFGの広域ネットワークを通じて福岡・長崎・熊本へ展開。FFGの法人向けポータルサイトにサービスを統合し、圧倒的な市場浸透を図る。</li>
+                            </ul>
+                        </div>
+                         <div class="card p-6 rounded-lg shadow-2xl">
+                             <h5 class="text-xl font-bold mb-2">九州フィナンシャルグループ</h5>
+                            <p class="text-sm text-gray-400 mb-4">南部九州全域へのサービス展開に不可欠なパートナー。</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 熊本・鹿児島での圧倒的シェア。TSMC進出を核とした半導体産業への深いコミットメントと専門チームの存在。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 「アップスキリング・アカデミー」で半導体関連の研修プログラムを共同開発し、サプライチェーン企業へ展開。KFGのネットワークで南九州市場をカバーし、産業特化型モデルのスケールを図る。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 <div>
+                    <h4 class="text-2xl font-bold mb-6 text-center accent-text border-b-2 border-green-500 pb-2">⚓ Niche/Testbedパートナー候補 (実証)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="card p-6 rounded-lg shadow-2xl">
+                            <h5 class="text-xl font-bold mb-2">琉球銀行 / 沖縄銀行</h5>
+                            <p class="text-sm text-gray-400 mb-4">観光業や独自の産業構造を持つ沖縄市場での実証。</p>
+                             <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 観光業との強いリレーションシップ、独自の人口動態、活発なスタートアップ・エコシステム。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 観光・ホスピタリティ産業に特化した人材マッチングや研修モジュールを開発・検証。本土とは異なる市場環境でのサービスの有効性を試す。</li>
+                            </ul>
+                        </div>
+                         <div class="card p-6 rounded-lg shadow-2xl">
+                             <h5 class="text-xl font-bold mb-2">大分銀行</h5>
+                             <p class="text-sm text-gray-400 mb-4">自治体連携やサステナビリティ領域での実証パートナー。</p>
+                             <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 自治体と連携した「地域ビジョンビジネス」というボトムアップ型のアプローチ。「未来世代」をステークホルダーと位置づける経営方針。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 自治体と連携した公営の人材マッチング事業や、グリーン/SDGs人材に特化したサービスの実証実験を行う。</li>
+                            </ul>
+                        </div>
+                         <div class="card p-6 rounded-lg shadow-2xl">
+                             <h5 class="text-xl font-bold mb-2">佐賀銀行</h5>
+                             <p class="text-sm text-gray-400 mb-4">県境を越えた広域連携モデルの実証。</p>
+                             <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li><span class="font-bold">活かせる強み:</span> 3県にまたがるネットワークと経済圏のハブとしての地理的優位性。TPM上場支援などユニークなサービス提供経験。</li>
+                                <li><span class="font-bold">協業シナリオ:</span> 福岡・佐賀・長崎の県境エリアで、企業と人材の広域マッチングモデルをテストし、地域をまたぐ人材流動化の効果を検証する。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="service-planning-schedule" class="mb-24">
+            <h3 class="text-3xl font-bold text-center mb-12">サービス考案から提案までのスケジュール</h3>
+            <div class="timeline">
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h2 class="text-xl font-bold accent-text">Phase 1: 戦略策定とパートナー選定 <span class="text-base text-gray-400 font-normal">(～2025年9月)</span></h2>
+                        <h3 class="font-bold mt-2">目的：サービスの中核機能定義と、初期検証に最適なパートナーの選定</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 mt-2 space-y-2">
+                            <li><b>やりたいこと別パートナー選定観点の設定:</b>
+                                <ul class="list-['-_'] list-inside pl-4 text-xs text-gray-400">
+                                    <li><b>AI診断:</b> 高品質な取引データとデータ分析への協業意欲 (候補: 西日本シティ銀行, FFG)</li>
+                                    <li><b>人材MP:</b> 先進的な人材紹介エコシステムの有無 (候補: 西日本シティ銀行, 宮崎太陽銀行)</li>
+                                    <li><b>事業承継:</b> 革新的な承継モデルの実績 (候補: 筑邦銀行, 北九州銀行)</li>
+                                    <li><b>研修:</b> 特定産業への深いコミットメント (候補: 九州FG, 琉球銀行)</li>
+                                </ul>
+                            </li>
+                            <li><b>一次候補選定とヒアリング項目の策定:</b> 上記観点から主要候補を絞り込み、課題感や協業意欲を問う具体的な質問リストを作成する。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h2 class="text-xl font-bold accent-text">Phase 2: 一次ヒアリングとサービス具体化 <span class="text-base text-gray-400 font-normal">(～2025年10月)</span></h2>
+                        <h3 class="font-bold mt-2">目的：銀行からの直接的なフィードバックに基づき、サービスコンセプトの妥当性を検証・具体化する</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 mt-2 space-y-2">
+                            <li><b>主要候補先へのヒアリング実施:</b> 各カテゴリーの最有力候補（西日本シティ銀行、宮崎太陽銀行、九州FG等）を訪問し、サービスコンセプトを提示。現場のニーズや課題、実現への障壁などをヒアリングする。</li>
+                            <li><b>サービス概要の修正と具体化:</b> ヒアリング結果を分析し、各機能の優先順位や提供価値を再定義。より具体的なサービスブループリントへと落とし込む。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h2 class="text-xl font-bold accent-text">Phase 3: パートナー戦略確定と事業計画策定 <span class="text-base text-gray-400 font-normal">(～2025年12月)</span></h2>
+                        <h3 class="font-bold mt-2">目的：最終的な協業パートナー候補を絞り込み、実現可能な事業計画を策定する</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 mt-2 space-y-2">
+                            <li><b>最終パートナー候補の絞り込み:</b> ヒアリング結果と修正後のサービス案に基づき、共同開発を担う「Alphaパートナー」の最終候補を2～3行に絞り込む。</li>
+                            <li><b>協業モデルと事業計画の策定:</b> 役割分担、レベニューシェア、開発体制、知財の扱いなど具体的な協業モデルを設計。合わせて、市場規模、収支計画、GTM戦略を含む詳細な事業計画を策定する。</li>
+                             <li><b>二次ヒアリングの実施:</b> 最終候補先に対し、具体的な事業計画と協業モデルを提示し、共同開発への最終的なコミットメントを確認する。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h2 class="text-xl font-bold accent-text">Phase 4: 最終提案書の作成 <span class="text-base text-gray-400 font-normal">(～2026年1月)</span></h2>
+                        <h3 class="font-bold mt-2">目的：全ての調査・分析結果を統合し、経営層への承認を得るための最終提案書を完成させる</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 mt-2 space-y-2">
+                            <li><b>提案書ドラフト作成:</b> これまでの全フェーズの結果（市場分析、サービス概要、パートナー戦略、事業計画）を一つの提案書として統合する。</li>
+                            <li><b>内部レビューと最終化:</b> 関係各部署とのレビューを通じて内容を精査・修正し、最終的な意思決定に足る完成度へと高める。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+    
+    <!-- AI Search Floating Action Button -->
+    <button id="ai-search-button" title="AIでレポート内を検索">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5c4.142 0 7.5 3.358 7.5 7.5s-3.358 7.5-7.5 7.5-7.5-3.358-7.5-7.5 3.358-7.5 7.5-7.5z"/><path d="M21.5 21.5l-4.35-4.35"/></svg>
+    </button>
+    
+    <!-- AI Search Panel -->
+    <div id="ai-search-panel" class="">
+        <div class="ai-search-header">
+            <h3>AIアシスタント (Gemini)</h3>
+            <button id="close-ai-panel">&times;</button>
+        </div>
+        <div id="ai-search-results">
+            <div class="ai-msg">
+                こんにちは！このレポートに関するご質問にAIがお答えします。下の入力欄から質問してください。
+                <br><br>例：<br>・西日本シティ銀行の強みを教えて<br>・Alphaパートナーの候補は？<br>・レポート全体を要約して
+            </div>
+        </div>
+        <div class="ai-search-footer">
+            <input type="text" id="ai-search-input" placeholder="質問を入力...">
+            <button id="ai-submit-button">送信</button>
+        </div>
+    </div>
+
+
+    <footer class="text-center p-8 mt-12 card border-x-0 border-b-0 rounded-none">
+        <p class="text-gray-500">金融分野チーム | 戦略的共創パートナーシップ分析レポート</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Chart.jsのインスタンスを管理するオブジェクトを分離
+            const activeCharts = {
+                static: {},
+                prefecture: {},
+                bank: {}
+            };
+
+            // 特定のスコープのチャートを破棄するヘルパー関数
+            function destroyCharts(scope) {
+                Object.values(activeCharts[scope]).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+                activeCharts[scope] = {};
+            }
+
+            // --- データ定義 ---
+            const bankData = {
+                "福岡県": [
+                    { name: "福岡銀行", id: "fukuoka", group: "ふくおかFG", asset: 32.6, loanRatio: 63.3, midTermPlanTitle: "第8次中期経営計画", midTermPlanSummary: "既存ビジネスの成長と新たな価値共創に向けた成長基盤の構築。", dxStrategy: "デジタルバンク「みんなの銀行」を運営する先進的なデジタル戦略。グループ共通のシングルプラットフォームを推進。", hrServices: "子会社FFGベンチャービジネスパートナーズ等を通じたコンサルティングが中心。", strengths: "九州全域をカバーする比類なき顧客基盤とデータ量。「みんなの銀行」で証明された先進的なデジタル戦略とイノベーション実行能力。", weaknesses: "巨大な組織構造ゆえの意思決定の遅延リスク。傘下銀行間の戦略調整にかかる内部コスト。", potential: "【Scale】九州最大の顧客基盤とブランド力で北部九州全域へのサービス展開を担う核。", initiatives: "産官学金連携を推進し、九州大学との連携協定を通じて地域の人材育成や大学発ベンチャーを支援。", scores: { financial: 4, it: 5, newBiz: 4, community: 4, scale: 5 } },
+                    { name: "西日本シティ銀行", id: "nncb", group: "西日本FH", asset: 13.5, loanRatio: 71.3, midTermPlanTitle: "飛翔 2026", midTermPlanSummary: "顧客起点の「One to Oneソリューション」提供。人材不足・後継者難を最重要課題と認識。", dxStrategy: "多数のFintech企業とのAPI連携を主導するオープンイノベーション型。業務効率化と営業支援を両立。", hrServices: "専門子会社と多様な外部人材会社との多層的提携網を構築。九州で最も先進的。", strengths: "高い組織的俊敏性と迅速な意思決定・実行能力。DXとオープンイノベーションに対する経営トップの強いコミットメント。", weaknesses: "FFGと比較した場合の事業規模と地理的カバレッジの限定性。福岡県以外でのブランドプレゼンスは相対的に低い。", potential: "【Alpha】戦略・実行力・文化の全てにおいて、MVPを共同開発する理想的なパートナー。", initiatives: "コンサルティング拠点「NCB創業応援サロン」の設置や、インキュベーション施設「FUKUOKA growth next」への参画を通じて、創業期から一貫した支援パッケージを提供。", scores: { financial: 4, it: 5, newBiz: 5, community: 4, scale: 4 } },
+                    { name: "筑邦銀行", id: "chikuhou", group: "独立系", asset: 0.88, loanRatio: 82.9, midTermPlanTitle: "中期経営計画2024", midTermPlanSummary: "「人、まち、地域を『動かす人』がいる銀行へ」をスローガンに、コンサルティングを強化。", dxStrategy: "地域共創プラットフォーム「まちのわ」など、外部連携を活用した実践的アプローチ。", hrServices: "株式永久保有モデル「C-BES」や農業分野の事業承継支援「C-TAF」など、極めてユニークで専門的。", strengths: "農業等、地域特有産業への深い専門知識。C-BESのような他行にない革新的な事業承継モデルを実行する行動力。", weaknesses: "大手グループ比でのIT投資余力の限界。営業エリアが筑後地域に集中している地理的制約。", potential: "【Alpha/Niche】農業分野や事業承継で革新的モデルを共同開発・実証するパートナー。", initiatives: "地域経済の根幹である農業への強力な支援として「筑後アグリネットワーク」を運営。また、九州電力やSBIと共同で設立した「まちのわ」を通じて地域通貨プラットフォームを提供し、地域内経済循環を促進。", scores: { financial: 2, it: 3, newBiz: 5, community: 5, scale: 1 } },
+                    { name: "北九州銀行", id: "kitakyushu", group: "山口FG", asset: 12.0, loanRatio: null, midTermPlanTitle: "YMFG 中期経営計画", midTermPlanSummary: "グループとして「地域価値向上企業グループ」を目指し、サステナビリティ経営を推進。", dxStrategy: "グループ主導のDX。ビジネスマッチング等で顧客企業の合理化を支援。", hrServices: "グループ会社YMキャリアが人材紹介を提供。日本初のサーチファンド事業による事業承継支援は先進的。", strengths: "製造業が集積する北九州工業地帯における強固な顧客基盤。YMFGグループの総合力と広域ネットワーク。", weaknesses: "福岡市内におけるFFGや西日本シティ銀行との熾烈な競争。単独での迅速な意思決定には制約の可能性。", potential: "【Niche】製造業・エネルギー分野での実証実験。サーチファンドとの連携も視野に。", initiatives: "YMFGグループとして、北九州市が推進するグリーンエネルギー分野（洋上風力発電など）への金融支援を強化。また、日本初のサーチファンド事業により、後継者不在企業と経営者候補をマッチング。", scores: { financial: 3, it: 3, newBiz: 4, community: 4, scale: 3 } },
+                    { name: "福岡中央銀行", id: "fukuokachuo", group: "ふくおかFG", asset: 0.5, loanRatio: null, midTermPlanTitle: "FFG 第8次中期経営計画", midTermPlanSummary: "FFGグループの一員として、地域密着の強みとグループの広範なリソースを融合。", dxStrategy: "FFGの先進的なデジタルプラットフォームに段階的に統合。", hrServices: "FFGグループの高度な人材・事業承継ソリューションを活用可能。", strengths: "福岡都市圏の中小企業との長年にわたる緊密なリレーションシップ。FFGグループのブランド力と先進的デジタル基盤。", weaknesses: "単独行としての規模の小ささ。グループ内での戦略的な位置づけや役割分担がまだ発展途上。", potential: "【Niche】FFGの巨大な顧客網の中で、福岡都市圏に特化した高密度な実証パートナー。", initiatives: "FFGグループの一員として、グループの広範なリソース（人材紹介、M&A、デジタルサービス）を活用し、福岡都市圏の取引先に提供。地域密着の強みを活かす。", scores: { financial: 3, it: 4, newBiz: 2, community: 5, scale: 1 } }
+                ],
+                "佐賀県": [
+                    { name: "佐賀銀行", id: "saga", group: "独立系", asset: 3.16, loanRatio: 67.2, midTermPlanTitle: "第18次中期経営計画", midTermPlanSummary: "「金融を『核』として地域を支える“総合サービス企業グループ”」を目指す。", dxStrategy: "デジタルチャネル拡充と行内DXを両輪で推進。5年で100名のデジタル専門人材育成を目指す。", hrServices: "自行での人材紹介サービスや、TPM上場支援などユニークな価値を提供。", strengths: "TPM上場支援などユニークなサービス。3県にまたがる広域経済圏のハブとしての地理的優位性。", weaknesses: "県内人口減少が経営に与える直接的な影響。大手グループと比較した際の開発投資体力。", potential: "【Niche】人口減少対策を掲げ、人材関連サービスへの関心が高い。3県連携モデルの実証に。", initiatives: "地方銀行として初めて東京プロマーケットへの上場を支援する「J-Adviser」資格を取得し、地域企業の成長を支援。また、自行で人材紹介サービスを直接提供。", scores: { financial: 3, it: 3, newBiz: 4, community: 4, scale: 2 } },
+                    { name: "佐賀共栄銀行", id: "sagakyoei", group: "独立系", asset: null, loanRatio: null, midTermPlanTitle: "第14次中期経営計画", midTermPlanSummary: "「お客さまに寄り添い、信頼される銀行」を掲げ、少数精鋭の組織を目指す。", dxStrategy: "大規模開発より、顧客利便性と業務効率化に直結する実践的DXに注力。", hrServices: "大手人材会社と提携するパートナーシップモデルを採用。自行リソースを割かず専門サービスを提供。", strengths: "地域の中小企業や個人顧客との極めて密接な関係性。小規模組織ならではの意思決定の速さと柔軟性。", weaknesses: "大規模なシステム投資や新商品開発におけるリソースの制約。佐賀県外への展開力。", potential: "【Niche】超地域密着型。新サービスのコンセプトが現場に響くかを検証する理想的なPoCパートナー。", initiatives: "パーソルホールディングスと提携し、中途採用サービス「ミイダス」や経営顧問紹介「i-common」などを取引先に提供するパートナーシップモデルを実践。", scores: { financial: 2, it: 2, newBiz: 2, community: 5, scale: 1 } }
+                ],
+                "長崎県": [
+                    { name: "十八親和銀行", id: "juhachi", group: "ふくおかFG", asset: null, loanRatio: null, midTermPlanTitle: "FFG 第8次中期経営計画", midTermPlanSummary: "FFGのプラットフォームを活用し、長崎県内での圧倒的シェアを維持・強化。", dxStrategy: "FFGのシングルプラットフォーム上でサービス展開。", hrServices: "FFGグループのコンサルティング機能を活用。", strengths: "長崎県内全域をカバーする強力なネットワークとブランド力。FFGのプラットフォームと商品力。", weaknesses: "グループ戦略との連携が前提となるため、独自の機動的な動きには制約がある可能性。", potential: "【Scale】FFGグループとして長崎県へのサービス展開を担う実行部隊。", initiatives: "FFGグループの一員として、グループの広範な金融・非金融ソリューションを長崎県内の顧客基盤に展開。県内での圧倒的なネットワークを活かし、地域創生に貢献。", scores: { financial: 4, it: 4, newBiz: 3, community: 5, scale: 4 } },
+                    { name: "長崎銀行", id: "nagasaki", group: "西日本FH", asset: 0.34, loanRatio: 84.6, midTermPlanTitle: "飛翔 2026", midTermPlanSummary: "NNFHグループの総合力を長崎市場で展開する戦略的拠点。", dxStrategy: "NNFHの先進的なデジタルチャネル（NCBアプリ等）を顧客に提供。", hrServices: "NNFHの先進的かつ多層的な人材紹介エコシステムをフル活用可能。", strengths: "NNFHグループの先進的な金融・非金融ソリューションの提供能力。中小企業に特化した高い貸出比率。", weaknesses: "十八親和銀行が圧倒的なシェアを持つ長崎市場における相対的な規模の小ささ。", potential: "【Niche】先進ソリューションを持つ特定県への展開パートナーとして有望。", initiatives: "西日本FHグループの先進的な人材紹介エコシステム（大手・地元・専門・外国人材との提携網）を長崎市場の顧客に提供し、深刻な人材不足問題に対応。", scores: { financial: 3, it: 4, newBiz: 4, community: 4, scale: 1 } }
+                ],
+                "熊本県": [
+                    { name: "肥後銀行", id: "higo", group: "九州FG", asset: 13.52, loanRatio: 67.0, midTermPlanTitle: "第4次中期経営計画「躍進」", midTermPlanSummary: "TSMC進出を核とした「新生シリコンアイランド九州」の実現を金融面から牽引。", dxStrategy: "グループ共通のデジタル基盤を強化。KDSを通じ地域企業のDXを支援。", hrServices: "M&A専門会社や投資専門会社を設立。半導体関連産業支援の専任チームを持つ。", strengths: "TSMC進出を核とした半導体産業への深いコミットメントと専門チームの存在。南九州における圧倒的な経済基盤。", weaknesses: "特定の巨大産業トレンドへの依存度が高まることによる集中リスク。", potential: "【Niche/Scale】半導体サプライチェーンに特化した実証実験の最重要パートナーであり、南九州のScale役も担う。", initiatives: "TSMC進出という歴史的機会を捉え、半導体関連産業支援の専任チームを設置。サプライチェーン企業を3年で50社支援する目標を掲げ、専門的な金融・情報サービスを提供。", scores: { financial: 4, it: 4, newBiz: 4, community: 5, scale: 4 } },
+                    { name: "熊本銀行", id: "kumamoto", group: "ふくおかFG", asset: null, loanRatio: null, midTermPlanTitle: "FFG 第8次中期経営計画", midTermPlanSummary: "FFGグループの一員として、熊本県内でのプレゼンスを発揮。", dxStrategy: "FFGのプラットフォームを活用し、デジタルサービスを展開。", hrServices: "FFGグループの広域ネットワークを活かしたM&A支援等を提供。", strengths: "FFGの先進的なプラットフォームと商品力を熊本市場で展開できる。", weaknesses: "県内トップの肥後銀行との競争。グループ戦略との連携が前提となる。", potential: "【Scale】FFGグループとして熊本県へのサービス展開を担う。", initiatives: "FFGグループの一員として、グループの先進的なデジタルプラットフォームや広範な非金融サービスを熊本市場で展開し、肥後銀行との差別化を図る。", scores: { financial: 4, it: 4, newBiz: 3, community: 4, scale: 4 } }
+                ],
+                "大分県": [
+                    { name: "大分銀行", id: "oita", group: "独立系", asset: null, loanRatio: null, midTermPlanTitle: "中期経営計画 2024", midTermPlanSummary: "「地域の持続可能性を高める価値創造カンパニー」を目指し、自治体との「地域ビジョンビジネス」を推進。", dxStrategy: "データ分析を活用した次世代営業支援システムの構築を目指す。", hrServices: "手厚い伴走型経営改善支援「Re-Bō」が特徴。自行で人材紹介事業も手掛ける。", strengths: "自治体と連携した「地域ビジョンビジネス」というボトムアップ型のアプローチ。手厚い伴走型経営改善支援。", weaknesses: "ROE目標が4%程度と、他の主要行に比べてやや保守的。大規模なDX投資におけるリソースの制約。", potential: "【Niche】サステナビリティや未来世代といったテーマと連携したサービス展開を検討するパートナー。", initiatives: "個別の市町村と連携し、地域ごとの課題に合わせた活性化プロジェクトを共同で企画・実行する「地域ビジョンビジネス」を推進。また、自行で人材紹介事業を手掛ける。", scores: { financial: 3, it: 3, newBiz: 3, community: 5, scale: 2 } }
+                ],
+                "宮崎県": [
+                    { name: "宮崎銀行", id: "miyazaki", group: "独立系", asset: 4.1, loanRatio: 44.7, midTermPlanTitle: "First Call Bank", midTermPlanSummary: "顧客が最初に相談する銀行を目指し、リアルとデジタルの融合を推進。", dxStrategy: "ビッグデータ基盤を整備し、パーソナライズされた提案を目指す。", hrServices: "大手人材会社と協業するパートナーシップモデルを採用し、効率的にサービスを提供。", strengths: "「First Call Bank」を目指す、リレーションシップ重視の明確な戦略。外部の専門性を活用する効率的なパートナーシップモデル。", weaknesses: "中小企業向け貸出比率が比較的低く、よりコンサルティング業務へのシフトが求められる。", potential: "【Niche】農業や観光といった宮崎の基幹産業に特化した実証実験パートナー。", initiatives: "自前主義にこだわらず、パーソルキャリア等の大手人材会社と協業し、その専門的なノウハウを顧客に提供するパートナーシップモデルで人材課題に対応。", scores: { financial: 3, it: 3, newBiz: 3, community: 5, scale: 2 } },
+                    { name: "宮崎太陽銀行", id: "taiyo", group: "独立系", asset: 0.81, loanRatio: null, midTermPlanTitle: "To evolution and beyond", midTermPlanSummary: "中小企業の人材課題解決に深く特化し、「進化」をサポートする。", dxStrategy: "ハイタッチな関係性を補完・強化するための実務的なデジタルツールを提供。", hrServices: "自社で有料職業紹介事業の許可を取得し、外国人材から後継者まで多層的なパートナー網を構築。", strengths: "人材課題解決に深く特化し、自社で許認可を取得してエコシステムを構築する強い意志と行動力。", weaknesses: "PBRが極めて低く、市場からの評価が厳しい。伝統的な預貸業務における収益性への圧力。", potential: "【Niche】人材課題解決に特化したサービスの共同開発・実証パートナー。", initiatives: "自ら有料職業紹介事業の許認可を取得し、外国人材に特化したPERSOL Global Workforce等との提携を通じて、地域における「人的資本のハブ」を目指す。", scores: { financial: 2, it: 2, newBiz: 5, community: 5, scale: 1 } }
+                ],
+                "鹿児島県": [
+                    { name: "鹿児島銀行", id: "kagoshima", group: "九州FG", asset: null, loanRatio: null, midTermPlanTitle: "第4次中期経営計画「躍進」", midTermPlanSummary: "KFGの中核として南九州の経済を支える。農林水産業、観光業も重点分野。", dxStrategy: "グループ共通のデジタル戦略を実行。", hrServices: "KFGの専門子会社機能を活用し、事業承継や人材紹介を支援。", strengths: "鹿児島県内での圧倒的なシェアと信頼。KFGの戦略を現場で実行する部隊。", weaknesses: "肥後銀行と同様に、半導体関連産業への集中リスクを共有する。", potential: "【Scale】KFGグループとして鹿児島県へのサービス展開を担う。", initiatives: "九州FGの中核として、グループの専門子会社機能を活用し、事業承継や人材紹介を支援。特に副業人材のマッチング支援に注力。", scores: { financial: 4, it: 4, newBiz: 4, community: 5, scale: 4 } },
+                    { name: "南日本銀行", id: "naninihon", group: "独立系", asset: 0.83, loanRatio: null, midTermPlanTitle: "インテグリティある組織への変革", midTermPlanSummary: "経営強化計画を完了し、中小規模事業者向け専門金融機関への変革を目指す。", dxStrategy: "自行の規模や顧客層に適した現実的なDXを模索中。", hrServices: "ビジネスモデル構築の途上にあり、新たな非金融サービスへの関心が高い。", strengths: "独立系としての意思決定の自由度。変革期にあり、新しい取り組みを導入しやすい環境。", weaknesses: "KFGが圧倒的なシェアを持つ鹿児島市場における規模の小ささ。大規模なシステム・人材投資における財務的制約。", potential: "【Niche】変革期にあり、新たなビジネスモデルを共に創り上げる共創パートナー。", initiatives: "経営変革の最中にあり、「中小規模事業者向け専門金融機関」としてのビジネスモデルを構築中。人材や事業承継は、その中核となる重点支援分野。", scores: { financial: 2, it: 2, newBiz: 2, community: 4, scale: 1 } }
+                ],
+                "沖縄県": [
+                    { name: "琉球銀行", id: "ryukyu", group: "独立系", asset: 3.07, loanRatio: 87.0, midTermPlanTitle: "Empower 2025", midTermPlanSummary: "「すべては沖縄のために」。独自の経済環境を活かし、スタートアップ・エコシステム育成に注力。", dxStrategy: "「デジタルユーザーは非デジタルユーザーの3倍の収益性」という明確なKPIを掲げる。", hrServices: "OIST等との学術連携による新ビジネス創出。人材紹介はパートナーシップモデル。", strengths: "沖縄の独自の成長ポテンシャルを最大限に活用する戦略。DXを収益に直結させる明確なKPI設定。", weaknesses: "沖縄経済への依存度が高く、観光業の景気変動などの影響を受けやすい。", potential: "【Niche】観光業や独自の産業構造を持つ沖縄市場での実証実験パートナー。", initiatives: "OIST等の学術機関と連携し、スタートアップ・エコシステムを育成。IT人材紹介企業groovesと提携し、県内企業のエンジニア採用を支援。", scores: { financial: 3, it: 4, newBiz: 4, community: 5, scale: 2 } },
+                    { name: "沖縄銀行", id: "okinawa", group: "おきなわFG", asset: 2.93, loanRatio: null, midTermPlanTitle: "第2次中期経営計画", midTermPlanSummary: "「成長の共創」をテーマに、沖縄の成長を共に創るパートナーシップを重視。", dxStrategy: "事務30%削減による法人営業担当者の倍増計画など、実践的な営業DXを推進。", hrServices: "地場や県外大手の人材紹介会社と連携し、経営幹部や専門人材を紹介。", strengths: "事務削減と営業人員増を直結させる、実践的で具体的なDX実行計画。グループ総合力。", weaknesses: "県内トップの琉球銀行との競争。", potential: "【Niche】沖縄市場におけるサービス展開・実証パートナー。", initiatives: "DX推進により事務作業を30%削減し、創出した人員を法人営業担当へシフトさせ、コンサルティング機能を倍増させる計画を実行中。", scores: { financial: 3, it: 4, newBiz: 3, community: 5, scale: 2 } },
+                    { name: "沖縄海邦銀行", id: "kaiho", group: "独立系", asset: 0.77, loanRatio: null, midTermPlanTitle: "BEYOND THE BANK", midTermPlanSummary: "銀行の枠を超え、デジタルとリアルのコミュニケーション融合を目指す。", dxStrategy: "経営支援プラットフォーム「かいぎん Big Advance」を中核に、外部サービスを統合。", hrServices: "M&A支援システム「B MASS」導入など、テクノロジーと外部連携を重視。", strengths: "外部の優れたサービスを統合する「プラットフォーム」戦略。高い自己資本比率が示す財務健全性。", weaknesses: "自社独自のサービス開発力ではなく、外部パートナーへの依存度が高くなる可能性がある。", potential: "【Niche】プラットフォーム戦略を志向しており、サービス連携のパートナーとして有望。", initiatives: "M&Aプラットフォーム「B MASS」を導入し、テクノロジー主導で事業承継を支援。また、経営支援プラットフォーム「かいぎん Big Advance」を運営し、外部サービスを統合。", scores: { financial: 4, it: 3, newBiz: 4, community: 5, scale: 1 } }
+                ],
+            };
+            
+            // 【情報拡充】九州各県の詳細データを追加
+            const prefectureDetailData = {
+                "福岡県": {
+                    summary: "九州の経済・商業の中心地。スタートアップ支援も活発で多様な産業が集積するが、福岡市への一極集中が進行し、周辺地域の過疎化と産業空洞化が課題。",
+                    strengths: ["アジアへのゲートウェイ", "多様な産業集積(商業,製造,IT)", "活発なスタートアップ・エコシステム"],
+                    weaknesses: ["福岡市への一極集中", "筑後・筑豊地域の過疎化", "交通渋滞"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '福岡都市圏', data: [258, 264, 268], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '筑後地域', data: [84, 82, 80], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '都市部', title: '福岡市「Fukuoka Smart East」', entity: '福岡市', location: '福岡市東区', objective: '先端技術の実証実験と高付加価値人材の誘致', content: 'スマートシティ化を推進し、新たな技術やサービスの実証の場を提供することで、IT関連の企業集積と若年層の転入を促進する。', effect: 'IT企業の集積が進み、若年層の転入超過が継続。', icon: '🏙️' },
+                        { area: '過疎地域', title: '八女市「空き家バンク」と移住支援', entity: '八女市', location: '八女市', objective: 'Iターン・Uターン促進による過疎化対策', content: '空き家情報と手厚い移住支援金を組み合わせ、都市部からの移住者を誘致。地域の担い手不足解消を目指す。', effect: '相談件数が年間200件を超え、都市部からの若者・子育て世代の移住が増加。', icon: '🏞️' },
+                        { area: '労働力対策', title: '北九州市「女性活躍・働き方改革」', entity: '北九州市', location: '北九州市', objective: '労働力確保と多様な働き方の実現', content: '市内企業へのコンサルタント派遣や認証制度により、女性や高齢者が働きやすい環境を整備し、潜在的な労働力を掘り起こす。', effect: '女性の就業率が向上し、人手不足が深刻な介護・福祉分野での定着率が改善。', icon: '👩‍💼' }
+                    ]
+                },
+                "佐賀県": {
+                    summary: "福岡と長崎の中間に位置し、3県にまたがる広域経済圏のハブとしての役割が期待される。県内人口減少が深刻な課題であり、地域経済の維持・活性化が急務となっている。",
+                    strengths: ["3県にまたがる地理的優位性", "TPM上場支援などユニークな金融サービス", "デジタル人材育成への強い意志"],
+                    weaknesses: ["深刻な人口減少", "大手グループ比での開発投資体力", "県内経済規模の制約"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '佐賀市周辺', data: [31, 30, 29], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '唐津・伊万里地域', data: [20, 19, 18], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '産業振興', title: '佐賀銀行「TPM上場支援」', entity: '佐賀銀行', location: '佐賀県内および取引先企業', objective: '中小企業の新たな成長資金調達手段の提供', content: '地方企業に新たな資金調達と信用の道を開く東京プロマーケット(TPM)への上場を、専門的なノウハウで支援する。', effect: '複数の地元企業が上場を果たし、成長を加速。', icon: '📈' },
+                        { area: '労働力対策', title: '県・銀行連携「デジタル人材育成」', entity: '佐賀県・佐賀銀行', location: '佐賀県内', objective: 'DXによる生産性向上と高付加価値化', content: '5年間で100名の専門人材育成を目指し、行員へのITパスポート取得を推進。地域全体のデジタルリテラシー向上を図る。', effect: '県内IT企業の競争力強化に貢献。', icon: '👩‍💻' },
+                        { area: '地域連携', title: '広域連携によるハブ機能強化', entity: '佐賀銀行', location: '福岡・佐賀・長崎の県境エリア', objective: '経済的結びつきの強化と地域経済のハブ化', content: '福岡・長崎との経済的結びつきを活かし、サプライチェーンや観光ルートのハブとしての役割を強化する。', effect: '県境を越えたビジネスマッチングが増加。', icon: '🌐' }
+                    ]
+                },
+                 "長崎県": {
+                    summary: "造船業や観光業といった伝統産業に加え、海洋再生可能エネルギーなどの新産業が期待される。しかし、離島を多く抱え、全国トップクラスの人口減少率が最大の課題。",
+                    strengths: ["歴史と文化に根差した観光資源", "造船・海洋産業の技術集積", "海洋再生可能エネルギーのポテンシャル"],
+                    weaknesses: ["全国トップクラスの人口減少率", "離島が多く、インフラ維持コストが高い", "基幹産業の構造的課題"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '長崎市・佐世保市', data: [69, 66, 63], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '五島・対馬・壱岐', data: [8, 7, 6], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '都市部', title: '長崎市「スタートアップ交流拠点 CO-DEJIMA」', entity: '長崎市', location: '長崎市出島', objective: 'スタートアップ創出と資金調達支援', content: '歴史的建造物をリノベーションし、起業家やエンジニアが集まる交流拠点を整備。首都圏VCとの連携イベントを頻繁に開催する。', effect: '3年間で20社のスタートアップが誕生し、約5億円の資金調達を実現。', icon: '🏙️' },
+                        { area: '過疎地域', title: '五島市「リモートワーク移住促進」', entity: '五島市', location: '五島市', objective: '関係人口創出とサテライトオフィス誘致', content: '全島に高速インターネット網を整備し、移住者向けに改修した古民家を格安で提供。島内でのコミュニティ形成も支援する。', effect: '5年間でIT関連企業のサテライトオフィス5社を誘致し、100人以上の移住者を獲得。', icon: '🏞️' },
+                        { area: '労働力対策', title: '県・造船業組合「次世代技能者育成プログラム」', entity: '長崎県・造船業組合', location: '長崎県内', objective: '造船業の若年層離職率低下と生産性向上', content: '若者離れが深刻な造船業で、VR溶接シミュレーター等の最新技術を活用した研修を導入。多能工化を推進し、生産性を向上させる。', effect: '若年層の離職率が10%低下し、一人当たりの生産性が向上。', icon: '👩‍🔧' }
+                    ]
+                },
+                "熊本県": {
+                    summary: "TSMC進出により「シリコンアイランド」として再注目。半導体関連産業の集積が加速する一方、専門人材の不足と県内での経済格差拡大が喫緊の課題。",
+                    strengths: ["半導体産業の一大集積地", "豊かな農業資源(全国有数の農業県)", "阿蘇など国際的な観光資源"],
+                    weaknesses: ["半導体関連産業への依存リスク", "高度専門人材の不足", "交通インフラの脆弱性"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '熊本都市圏(菊陽町含む)', data: [112, 113, 115], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '天草・芦北地域', data: [11, 10, 9], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '労働力対策', title: '県・大学連携「半導体人材育成協議会」', entity: '熊本県・地元大学群', location: '熊本県内', objective: 'TSMC進出に伴う半導体専門人材の育成と県内定着率向上', content: 'TSMC進出を受け、県と地元大学群が連携。半導体関連の専門教育プログラムを新設し、即戦力人材を育成する。', effect: '地元学生の県内定着率が5%向上。', icon: '🎓' },
+                        { area: '過疎地域', title: '南小国町「関係人口創出プロジェクト」', entity: '南小国町', location: '南小国町', objective: 'ワーケーション施設整備による関係人口創出と企業誘致', content: '廃校を活用したワーケーション施設を整備し、都市部のクリエイター等を誘致。地域課題解決プロジェクトへの参加を促す。', effect: '年間500人以上の関係人口を創出し、2件のサテライトオフィス誘致に成功。', icon: '🏞️' },
+                        { area: '経営者対策', title: '熊本県事業承継・引継ぎ支援センター', entity: '熊本県事業承継・引継ぎ支援センター(公的機関)', location: '熊本県内', objective: '後継者不在の事業者と第二創業者とのマッチングによる事業存続', content: '後継者不在の小規模事業者と、第二創業者(経営者になりたい個人)をマッチング。公的機関が仲介することで信頼性を担保する。', effect: '年間30件以上のマッチングを成立させ、廃業危機にあった企業の事業を存続。', icon: '🤝' }
+                    ]
+                },
+                "大分県": {
+                    summary: "自治体と連携したボトムアップ型の地域創生「地域ビジョンビジネス」を推進。未来世代への貢献を掲げ、サステナビリティを重視するが、県全体の経済的活力向上が課題。",
+                    strengths: ["自治体との強い連携(地域ビジョン)", "手厚い伴走型経営改善支援", "サステナビリティへの高い意識"],
+                    weaknesses: ["保守的な収益目標(ROE)", "大規模DX投資のリソース制約", "観光業への依存"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '大分市・別府市', data: [63, 62, 61], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '県西部（日田・玖珠）', data: [11, 10, 9], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                         { area: '地域創生', title: '大分銀行「地域ビジョンビジネス」', entity: '大分銀行・各市町村', location: '大分県内各市町村(例:別府市,玖珠町)', objective: '各自治体の特性に合わせた地域課題解決プロジェクトの共同推進', content: '個別の市町村と連携し、観光DXやデジタル地域通貨導入など、地域ごとの課題に合わせた活性化プロジェクトを共同で企画・実行する。', effect: '自治体との連携が深化し、実効性の高い地域貢献を実現。', icon: '🏘️' },
+                         { area: '経営者対策', title: '伴走型経営改善支援「Re-Bō」', entity: '大分銀行', location: '取引先企業', objective: '伴走型支援による本業改善と資金繰り安定化', content: '担当者が1年間にわたり取引先の経営に深く伴走し、本業改善や資金繰り安定化を支援する手厚いリレーションシップ重視のモデル。', effect: '支援先企業の経営改善と安定化に貢献。', icon: '🤝' },
+                         { area: '未来志向', title: '「未来世代」をステークホルダーに', entity: '大分銀行', location: '投融資判断全般', objective: '長期的視点での持続可能な地域社会の実現', content: '長期的な視点での持続可能な地域社会の実現を経営戦略の根幹に据え、未来志向の投融資判断を実施する。', effect: 'ESG経営の深化と地域からの信頼獲得。', icon: '🌱' }
+                    ]
+                },
+                "宮崎県": {
+                    summary: "農業や観光業が基幹産業。金融機関は顧客とのリレーションシップを重視し、「First Call Bank」を目指す。外部の専門性を活用する効率的なパートナーシップモデルが特徴。",
+                    strengths: ["リレーションシップ重視の明確な戦略", "効率的なパートナーシップモデル", "農業・観光分野の基盤"],
+                    weaknesses: ["中小企業向け貸出比率が比較的低い", "県外への人材流出", "交通アクセスの課題"],
+                     population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '宮崎市・都城市', data: [68, 67, 66], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '県北山間部', data: [12, 11, 10], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '労働力対策', title: '宮崎銀行「パートナーシップ型人材支援」', entity: '宮崎銀行・パーソルキャリア等', location: '宮崎県内', objective: '外部の専門性を活用し、顧客の多様な人材ニーズに効率的に対応', content: 'パーソルキャリア等の大手人材会社と協業し、その専門的ノウハウを顧客に提供。自行リソースをコア業務に集中させる効率的なモデル。', effect: '顧客の多様な人材ニーズに迅速に対応。', icon: '👩‍💼' },
+                        { area: '顧客戦略', title: '「First Call Bank」の実現', entity: '宮崎銀行', location: '宮崎県内', objective: 'リアルとデジタルの融合による顧客満足度向上とメインバンク化', content: '顧客が困ったときに最初に相談する銀行を目指し、リアルとデジタルの融合を推進。営業店をコンサルティング拠点へと転換。', effect: '顧客満足度とメインバンク化率の向上。', icon: '📞' },
+                        { area: '経営者対策', title: '宮崎太陽銀行「人的資本ハブ」', entity: '宮崎太陽銀行', location: '宮崎県内', objective: '自社での人材紹介事業と多層的パートナー網による人材エコシステム構築', content: '自社で有料職業紹介事業を運営し、外国人材から後継者まで多層的なパートナー網を構築。地域における人的資本のハブを目指す。', effect: '競合が模倣困難な強力な競争優位性を構築。', icon: 'HUB' }
+                    ]
+                },
+                 "鹿児島県": {
+                    summary: "南九州の経済拠点であり、農業、畜産、観光業が盛ん。九州FGの中核として、県内経済を支える。近年は半導体関連産業への波及効果も期待される。",
+                    strengths: ["県内での圧倒的シェアと信頼", "九州FGの広域ネットワークと資本力", "多様な第一次産業"],
+                    weaknesses: ["半導体関連産業への集中リスク(KFGとして)", "桜島の火山活動リスク", "離島のインフラ維持コスト"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '鹿児島市・霧島市', data: [81, 80, 79], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '大隅半島・離島', data: [28, 26, 24], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '産業振興', title: '九州FG「半導体関連産業支援」', entity: '九州FG (鹿児島銀行・肥後銀行)', location: '南九州(鹿児島・熊本)', objective: 'TSMC進出の経済効果最大化', content: 'TSMC進出の経済効果を最大化するため、サプライチェーン企業への融資やコンサルティングを強化する。', effect: '南九州全体の産業構造高度化に貢献。', icon: '📈' },
+                        { area: '労働力対策', title: 'KFG「副業人材マッチング支援」', entity: '九州FG', location: '鹿児島県内', objective: '専門スキルを持つ人材活用によるイノベーション創出', content: '専門スキルを持つ副業人材と地元企業をマッチングし、人材不足を補完。多様な働き方を促進する。', effect: '企業の専門性向上とイノベーション創出。', icon: '👩‍💻' },
+                        { area: '地域創生', title: '農林水産業・観光業のDX推進', entity: '九州FG', location: '鹿児島県内', objective: '基幹産業の生産性向上', content: 'スマート農業の導入支援や、観光DXによる高付加価値化を金融面からサポートする。', effect: '基幹産業の生産性向上と持続可能性確保。', icon: '🌾' }
+                    ]
+                },
+                "沖縄県": {
+                    summary: "全国でも稀有な人口増加と高い出生率が最大の強み。観光業を基盤としつつ、OISTを核としたスタートアップやIT産業の集積が進む。一方で、県民所得の低さが課題。",
+                    strengths: ["全国トップクラスの若年人口比率", "アジアに近い地理的優位性", "世界的な観光ブランド"],
+                    weaknesses: ["一人当たり県民所得が低い", "観光業への高い依存度", "基地経済の特殊性"],
+                    population_chart: {
+                        labels: ['2015', '2020', '2025 (予測)'],
+                        datasets: [
+                            { label: '那覇市・中部都市圏', data: [94, 96, 98], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.5)', fill: false },
+                            { label: '北部・離島地域', data: [18, 18, 17], borderColor: '#F472B6', backgroundColor: 'rgba(244, 114, 182, 0.5)', fill: false }
+                        ]
+                    },
+                    initiatives: [
+                        { area: '産業振興', title: 'OIST発「スタートアップ・エコシステム」', entity: '沖縄県・OIST・民間企業', location: '沖縄県内', objective: '研究シーズの事業化とディープテックスタートアップ創出', content: '世界レベルの研究機関であるOISTを核に、県や民間が連携し、研究シーズの事業化を支援する。', effect: 'ディープテック分野のスタートアップが複数生まれ、国際的な注目を集める。', icon: '🔬' },
+                        { area: '過疎地域', title: '竹富町「エコツーリズム・ガイド育成」', entity: '竹富町', location: '西表島', objective: '高付加価値な体験型観光の提供とUターン雇用創出', content: '西表島の世界自然遺産登録を機に、地域の自然や文化を深く理解したガイドを育成。高付加価値な体験型観光を提供する。', effect: 'ツアー単価が従来比1.5倍に上昇し、若者のUターン雇用を創出。', icon: '🏞️' },
+                        { area: '労働力対策', title: '県「IT人材キャリアアップ支援」', entity: '沖縄県', location: '沖縄県内', objective: '既存IT産業従事者のスキルアップと産業構造の高度化', content: 'コールセンター等の既存IT産業従事者向けに、より高度なプログラミングやデータ分析スキルを学ぶリカレント教育プログラムを提供する。', effect: '年間200人以上が高度IT職へのキャリアアップに成功し、県内IT産業の構造高度化に貢献。', icon: '👩‍💻' }
+                    ]
+                }
+            };
+            
+            const tooltipTitleCallback = function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) { return label.join(' '); }
+                return label;
+            };
+
+            const sharedChartOptions = {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#E6EDF3' } },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: {
+                    x: { ticks: { color: '#8B949E' }, grid: { color: '#30363D' } },
+                    y: { ticks: { color: '#8B949E' }, grid: { color: '#30363D' }, beginAtZero: true }
+                }
+            };
+            
+            // --- 静的グラフの初期化 ---
+            activeCharts.static['populationProjectionChart'] = new Chart(document.getElementById('populationProjectionChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2030', '2040', '2050'],
+                    datasets: [
+                        { label: '総人口 (億人)', data: [1.26, 1.19, 1.11, 1.02], borderColor: '#38BDF8', backgroundColor: 'rgba(56, 189, 248, 0.2)', fill: true, tension: 0.1 },
+                        { label: '生産年齢人口 (億人)', data: [0.75, 0.67, 0.59, 0.52], borderColor: '#D4AF37', backgroundColor: 'rgba(212, 175, 55, 0.2)', fill: true, tension: 0.1 }
+                    ]
+                },
+                options: { ...sharedChartOptions, scales: { ...sharedChartOptions.scales, y: { title: { display: true, text: '人口 (億人)', color: '#8B949E' } } } }
+            });
+
+            activeCharts.static['allBanksFinancialScaleChart'] = new Chart(document.getElementById('allBanksFinancialScaleChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'ふくおかFG', '九州FG', '西日本FH', '山口FG', 
+                        '宮崎銀行', '佐賀銀行', '琉球銀行', 'おきなわFG', 
+                        '筑邦銀行', '南日本銀行', '宮崎太陽銀行', '沖縄海邦銀行',
+                        '福岡中央銀行', '長崎銀行'
+                    ],
+                    datasets: [{
+                        label: '総資産 (兆円)',
+                        data: [
+                            32.6, 13.52, 13.5, 12.0, 4.1, 3.16, 3.07, 2.93,
+                            0.88, 0.83, 0.81, 0.77, 0.5, 0.34
+                        ],
+                        backgroundColor: 'rgba(212, 175, 55, 0.7)',
+                        borderColor: '#D4AF37',
+                        borderWidth: 1
+                    }]
+                },
+                options: { 
+                    indexAxis: 'y',
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { 
+                            callbacks: { 
+                                title: tooltipTitleCallback,
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x.toFixed(2) + '兆円';
+                                    }
+                                    return label;
+                                }
+                            } 
+                        }
+                    },
+                    scales: {
+                        y: { ticks: { color: '#E6EDF3' }, grid: { color: '#30363D' } },
+                        x: { 
+                            type: 'logarithmic',
+                            ticks: { 
+                                color: '#8B949E',
+                                callback: function(value, index, values) {
+                                    if (value === 10 || value === 1 || value === 0.1) {
+                                        return value + '兆円'
+                                    }
+                                }
+                            }, 
+                            grid: { color: '#30363D' },
+                            title: { display: true, text: '総資産 (兆円) ※対数目盛', color: '#8B949E' }
+                        }
+                    } 
+                }
+            });
+
+            // --- タブ機能のセットアップ ---
+            function setupTabs(buttonContainerId, contentContainerId, data, renderer) {
+                const tabButtonsContainer = document.getElementById(buttonContainerId);
+                if (!tabButtonsContainer) return;
+                
+                // 初回描画のためにコンテナをクリア
+                tabButtonsContainer.innerHTML = '';
+
+                Object.keys(data).forEach((key, index) => {
+                    const button = document.createElement('button');
+                    button.textContent = key;
+                    button.className = 'tab-button px-4 py-2 text-sm md:text-base font-bold text-gray-400 focus:outline-none';
+                    if (index === 0) button.classList.add('active');
+                    button.addEventListener('click', () => {
+                        tabButtonsContainer.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        renderer(key);
+                    });
+                    tabButtonsContainer.appendChild(button);
+                });
+                renderer(Object.keys(data)[0]);
+            }
+            
+            // --- 県別詳細コンテンツの描画 ---
+            function renderPrefectureContent(ken) {
+                destroyCharts('prefecture');
+                const contentContainer = document.getElementById('prefecture-tab-content');
+                const data = prefectureDetailData[ken];
+                if (!data) {
+                    contentContainer.innerHTML = `<p>「${ken}」に関する詳細データはありません。</p>`;
+                    return;
+                }
+                
+                // 銀行データのフィルタリング
+                const localBanks = bankData[ken] || [];
+                let banksHtml = localBanks.map(bank => `
+                    <div class="card p-4 rounded-lg">
+                        <h6 class="font-bold text-base text-cyan-400">${bank.name} <span class="text-xs font-normal text-gray-400">(${bank.group})</span></h6>
+                        <p class="text-sm text-gray-300 mt-2">${bank.initiatives || '地域経済への貢献活動を推進。'}</p>
+                    </div>
+                `).join('');
+
+                if(localBanks.length === 0){
+                    banksHtml = `<p class="text-sm text-gray-400">この県の地銀に関する個別データはありません。</p>`;
+                }
+
+                let initiativesHtml = data.initiatives.map(item => `
+                    <div class="card p-4 rounded-lg">
+                         <h5 class="font-bold text-base mb-3"><span class="text-xl mr-2">${item.icon}</span>${item.title}</h5>
+                         <dl class="text-sm space-y-2">
+                            <div class="flex"><dt class="w-16 font-semibold text-gray-400 flex-shrink-0">主体</dt><dd class="text-gray-300">${item.entity}</dd></div>
+                            <div class="flex"><dt class="w-16 font-semibold text-gray-400 flex-shrink-0">場所</dt><dd class="text-gray-300">${item.location}</dd></div>
+                            <div class="flex"><dt class="w-16 font-semibold text-gray-400 flex-shrink-0">目的</dt><dd class="text-gray-300">${item.objective}</dd></div>
+                            <div class="flex"><dt class="w-16 font-semibold text-gray-400 flex-shrink-0">内容</dt><dd class="text-gray-300">${item.content}</dd></div>
+                            <div class="flex"><dt class="w-16 font-semibold text-gray-400 flex-shrink-0">効果</dt><dd class="text-gray-300">${item.effect}</dd></div>
+                         </dl>
+                    </div>
+                `).join('');
+
+                contentContainer.innerHTML = `
+                    <h4 class="text-2xl font-bold text-center mb-2">${ken}</h4>
+                    <p class="text-center text-gray-400 text-sm mb-8">${data.summary}</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h5 class="font-bold text-lg mb-4 text-center">県内人口動態の格差</h5>
+                            <p class="text-sm text-center text-gray-400 mb-4">県内でも都市部と周辺地域では人口動態が大きく異なります。以下は代表的なエリアの人口（万人）の比較と推移です。</p>
+                            
+                            <h6 class="font-bold text-base mt-4 mb-2 text-center">エリア別人口規模 (2025年予測)</h6>
+                            <div class="prefecture-chart-container" style="height: 120px;">
+                                <canvas id="pref-population-bar-chart"></canvas>
+                            </div>
+
+                            <h6 class="font-bold text-base mt-8 mb-2 text-center">人口推移のトレンド</h6>
+                            <div class="prefecture-chart-container" style="height: 200px;">
+                                <canvas id="pref-population-line-chart"></canvas>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 text-sm">
+                                <div><h6 class="font-bold text-green-400">強み</h6><ul class="list-disc list-inside mt-1">${data.strengths.map(s => `<li>${s}</li>`).join('')}</ul></div>
+                                <div><h6 class="font-bold text-red-400">弱み</h6><ul class="list-disc list-inside mt-1">${data.weaknesses.map(w => `<li>${w}</li>`).join('')}</ul></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-lg mb-4 text-center">主な対策事例</h5>
+                            <div class="space-y-4">${initiativesHtml}</div>
+                            
+                            <h5 class="font-bold text-lg mt-8 mb-4 text-center">県内地銀の主な取り組み</h5>
+                            <div class="space-y-4">${banksHtml}</div>
+                        </div>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    const lineCtx = document.getElementById('pref-population-line-chart');
+                    if (lineCtx) {
+                        activeCharts.prefecture['pref-population-line-chart'] = new Chart(lineCtx.getContext('2d'), {
+                            type: 'line',
+                            data: data.population_chart,
+                            options: {
+                                ...sharedChartOptions,
+                                plugins: { ...sharedChartOptions.plugins, legend: { position: 'bottom', labels: {color: '#E6EDF3'} } }
+                            }
+                        });
+                    }
+
+                    const barCtx = document.getElementById('pref-population-bar-chart');
+                    if (barCtx) {
+                        const latestData = data.population_chart.datasets.map(d => d.data[d.data.length - 1]);
+                        const labels = data.population_chart.datasets.map(d => d.label);
+                        const backgroundColors = data.population_chart.datasets.map(d => d.backgroundColor);
+
+                        activeCharts.prefecture['pref-population-bar-chart'] = new Chart(barCtx.getContext('2d'), {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: '2025年予測人口 (万人)',
+                                    data: latestData,
+                                    backgroundColor: backgroundColors,
+                                    borderWidth: 0
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false }
+                                },
+                                scales: {
+                                    x: { ...sharedChartOptions.scales.x, title: { display: true, text: '人口 (万人)', color: '#8B949E' } },
+                                    y: { ...sharedChartOptions.scales.y, grid: { display: false } }
+                                }
+                            }
+                        });
+                    }
+                }, 0);
+            }
+
+            // --- 銀行別詳細コンテンツの描画 ---
+            function renderBankContent(ken) {
+                destroyCharts('bank');
+                const contentContainer = document.getElementById('bank-tab-content');
+                contentContainer.innerHTML = '';
+                const banks = bankData[ken];
+                
+                // 比較チャート用コンテナを追加
+                const chartCard = document.createElement('div');
+                chartCard.className = 'card rounded-lg p-6 mb-8';
+                chartCard.innerHTML = `
+                    <h4 class="text-xl font-bold text-center mb-4">${ken} 全行比較レーダーチャート</h4>
+                    <p class="text-sm text-center text-gray-400 mb-4">各行の戦略的特性を5つの軸で評価し、比較します。詳細な分析は各行のカードをご覧ください。</p>
+                    <div class="chart-container h-[60vh] max-h-[500px] mx-auto">
+                        <canvas id="bank-radar-chart"></canvas>
+                    </div>
+                `;
+                contentContainer.appendChild(chartCard);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+                
+                banks.forEach(bank => {
+                    const card = document.createElement('div');
+                    card.className = 'card rounded-lg p-6 flex flex-col h-full';
+                    // 個別のチャート表示を削除
+                    card.innerHTML = `
+                        <div class="flex-grow">
+                            <h5 class="text-xl font-bold">${bank.name}</h5>
+                            <p class="text-sm font-semibold accent-text">${bank.group}</p>
+                            <div class="text-xs text-gray-400 mt-2">総資産: ${bank.asset ? bank.asset + '兆円' : 'N/A'} | 中小企業貸出比率: ${bank.loanRatio ? bank.loanRatio + '%' : 'N/A'}</div>
+                            <div class="my-4 p-4 bg-gray-900 rounded-md">
+                                <h6 class="font-bold text-center text-base mb-2">銀行特性スコア</h6>
+                                <ul class="text-xs space-y-1 text-gray-300">
+                                    <li class="flex justify-between"><span>財務健全性:</span> <span class="font-bold">${bank.scores.financial}/5</span></li>
+                                    <li class="flex justify-between"><span>IT/DX投資:</span> <span class="font-bold">${bank.scores.it}/5</span></li>
+                                    <li class="flex justify-between"><span>新規事業積極性:</span> <span class="font-bold">${bank.scores.newBiz}/5</span></li>
+                                    <li class="flex justify-between"><span>地域密着度:</span> <span class="font-bold">${bank.scores.community}/5</span></li>
+                                    <li class="flex justify-between"><span>規模・広域性:</span> <span class="font-bold">${bank.scores.scale}/5</span></li>
+                                </ul>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm mb-4">
+                                <div><h6 class="font-bold text-green-400">強み</h6><p class="text-gray-300">${bank.strengths}</p></div>
+                                <div class="mt-2 md:mt-0"><h6 class="font-bold text-red-400">弱み</h6><p class="text-gray-300">${bank.weaknesses}</p></div>
+                            </div>
+                            <div class="mt-4 space-y-3 border-t border-gray-700 pt-4">
+                                <p class="text-sm text-gray-300"><span class="font-bold block text-gray-400">中期経営計画:『${bank.midTermPlanTitle}』</span> ${bank.midTermPlanSummary}</p>
+                                <p class="text-sm text-gray-300"><span class="font-bold block text-gray-400">DX戦略:</span> ${bank.dxStrategy}</p>
+                                <p class="text-sm text-gray-300"><span class="font-bold block text-gray-400">人材・承継支援:</span> ${bank.hrServices}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                             <p class="text-sm text-gray-300"><span class="font-bold text-cyan-400">パートナーポテンシャル:</span> ${bank.potential}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                contentContainer.appendChild(grid);
+
+                // 比較用レーダーチャートを生成
+                setTimeout(() => {
+                    const ctx = document.getElementById('bank-radar-chart');
+                    if (ctx) {
+                        const colors = ['#D4AF37', '#38BDF8', '#F472B6', '#34D399', '#A78BFA'];
+                        const datasets = banks.map((bank, index) => ({
+                            label: bank.name,
+                            data: Object.values(bank.scores),
+                            borderColor: colors[index % colors.length],
+                            backgroundColor: 'rgba(' + parseInt(colors[index % colors.length].substring(1, 3), 16) + ',' + parseInt(colors[index % colors.length].substring(3, 5), 16) + ',' + parseInt(colors[index % colors.length].substring(5, 7), 16) + ', 0.2)',
+                            pointBackgroundColor: colors[index % colors.length]
+                        }));
+
+                        activeCharts.bank['bank-radar-chart'] = new Chart(ctx.getContext('2d'), {
+                            type: 'radar',
+                            data: {
+                                labels: ['財務健全性', 'IT/DX投資', '新規事業積極性', '地域密着度', '規模・広域性'],
+                                datasets: datasets
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                plugins: { 
+                                    legend: { 
+                                        position: 'top',
+                                        labels: {
+                                            color: '#E6EDF3'
+                                        }
+                                    } 
+                                },
+                                scales: {
+                                    r: {
+                                        angleLines: { color: '#30363D' },
+                                        grid: { color: '#30363D' },
+                                        pointLabels: { color: '#E6EDF3', font: { size: 12 } },
+                                        ticks: { 
+                                            display: true, 
+                                            stepSize: 1, 
+                                            max: 5, 
+                                            min: 0,
+                                            backdropColor: 'rgba(0,0,0,0)',
+                                            color: '#8B949E'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }, 0);
+            }
+            
+            setupTabs('prefecture-tab-buttons', 'prefecture-tab-content', prefectureDetailData, renderPrefectureContent);
+            setupTabs('bank-tab-buttons', 'bank-tab-content', bankData, renderBankContent);
+
+            // --- AI Search Functionality ---
+            const aiSearchButton = document.getElementById('ai-search-button');
+            const aiSearchPanel = document.getElementById('ai-search-panel');
+            const closeAiPanelButton = document.getElementById('close-ai-panel');
+            const aiSearchInput = document.getElementById('ai-search-input');
+            const aiSubmitButton = document.getElementById('ai-submit-button');
+            const aiSearchResults = document.getElementById('ai-search-results');
+            
+            aiSearchButton.addEventListener('click', () => {
+                aiSearchPanel.classList.toggle('visible');
+            });
+
+            closeAiPanelButton.addEventListener('click', () => {
+                aiSearchPanel.classList.remove('visible');
+            });
+
+            aiSubmitButton.addEventListener('click', handleAiSearch);
+            aiSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleAiSearch();
+                }
+            });
+
+            function getReportTextContent() {
+                const mainContent = document.querySelector('main').cloneNode(true);
+                // 不要な要素を削除
+                mainContent.querySelectorAll('canvas, button, input').forEach(el => el.remove());
+                return mainContent.innerText;
+            }
+
+            async function handleAiSearch() {
+                const userQuery = aiSearchInput.value.trim();
+                if (!userQuery) return;
+
+                appendMessage(userQuery, 'user');
+                aiSearchInput.value = '';
+                appendMessage('AIが回答を生成中です…', 'ai', true);
+
+                try {
+                    const reportContent = getReportTextContent();
+                    const systemPrompt = `あなたは提供された「九州地方銀行 戦略的共創パートナーシップ分析」レポートに関する質問に答える専門アシスタントです。レポートの内容のみに基づいて、簡潔かつ正確に回答してください。レポートに記載のない情報は「レポートには記載がありません」と明確に回答してください。`;
+                    const userPrompt = `以下のレポート内容を参考にして、次の質問に答えてください。\n\n## レポート内容\n${reportContent}\n\n## 質問\n${userQuery}`;
+                    
+                    const apiKey = ""; // Provided by the environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                    };
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    const aiResponse = result.candidates?.[0]?.content?.parts?.[0]?.text || '申し訳ありません、回答を生成できませんでした。';
+                    
+                    updateLastMessage(aiResponse);
+
+                } catch (error) {
+                    console.error('Gemini API Error:', error);
+                    updateLastMessage('エラーが発生しました。しばらくしてから再度お試しください。');
+                }
+            }
+            
+            function appendMessage(text, sender, isLoader = false) {
+                const msgDiv = document.createElement('div');
+                msgDiv.textContent = text;
+                if (sender === 'user') {
+                    msgDiv.className = 'user-msg';
+                } else {
+                    msgDiv.className = 'ai-msg';
+                    if (isLoader) {
+                       msgDiv.id = 'ai-loader';
+                    }
+                }
+                aiSearchResults.appendChild(msgDiv);
+                aiSearchResults.scrollTop = aiSearchResults.scrollHeight;
+            }
+
+            function updateLastMessage(text) {
+                const loader = document.getElementById('ai-loader');
+                if (loader) {
+                    loader.textContent = text;
+                    loader.id = '';
+                }
+                aiSearchResults.scrollTop = aiSearchResults.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
+
